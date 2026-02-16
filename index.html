@@ -3,58 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIP Dashboard - Premium Edition</title>
+    <title>VIP Premium Dashboard</title>
     <style>
-        :root { --gold: #d4af37; --dark: #050505; }
+        :root { --gold: #d4af37; --dark: #050505; --soft-gold: rgba(212, 175, 55, 0.2); }
+        
         body { 
-            background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; 
+            background: var(--dark); color: white; font-family: 'Segoe UI', Tahoma, sans-serif; 
             margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
 
+        /* خلفية الفيديو الفخمة */
         #bg-video {
             position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%;
-            z-index: -1; filter: brightness(0.2); object-fit: cover;
+            z-index: -1; filter: brightness(0.2) contrast(1.1); object-fit: cover;
         }
 
         .main-card {
-            width: 90%; max-width: 400px; padding: 20px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 25px; backdrop-filter: blur(15px);
-            text-align: center; position: relative;
+            width: 92%; max-width: 450px; padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--soft-gold);
+            border-radius: 30px; backdrop-filter: blur(20px);
+            text-align: center; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.9);
         }
 
-        /* شريط العمليات المباشرة */
-        .live-bar {
-            background: rgba(212, 175, 55, 0.15);
-            color: var(--gold); padding: 8px 0; font-size: 0.8rem;
-            border-radius: 10px; margin-bottom: 15px; overflow: hidden;
-            white-space: nowrap; border: 1px solid rgba(212, 175, 55, 0.2);
+        .logo-glow {
+            font-size: 3.5rem; text-shadow: 0 0 25px var(--gold); margin-bottom: 15px;
         }
-        .marquee { display: inline-block; animation: marquee 15s linear infinite; }
+
+        /* شبكة الإحصائيات الكبيرة */
+        .stats-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0;
+        }
+
+        .stat-item {
+            background: rgba(212, 175, 55, 0.07);
+            padding: 15px; border-radius: 20px;
+            border: 1px solid var(--soft-gold);
+            transition: 0.3s;
+        }
+
+        .stat-num { font-size: 1.6rem; font-weight: bold; color: var(--gold); display: block; }
+        .stat-label { font-size: 0.8rem; opacity: 0.7; margin-top: 5px; }
+
+        /* زر الطلب المحدث برابط البوت */
+        .btn-gold {
+            display: block; width: 100%; padding: 16px; margin-top: 20px;
+            background: linear-gradient(135deg, var(--gold), #b8962e);
+            color: black; border-radius: 15px; text-decoration: none;
+            font-weight: bold; font-size: 1.2rem;
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+            transition: 0.3s;
+        }
+        .btn-gold:active { transform: scale(0.98); }
+
+        /* شريط الإحصائيات السفلي */
+        .bottom-marquee {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            background: rgba(212, 175, 55, 0.1);
+            border-top: 1px solid var(--soft-gold);
+            padding: 10px 0; overflow: hidden; white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block; animation: marquee 20s linear infinite;
+            color: var(--gold); font-size: 0.85rem; font-weight: 500;
+        }
         @keyframes marquee { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
-        .stat-item { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 12px; border: 1px solid rgba(212, 175, 55, 0.1); }
-        .stat-num { font-size: 1.3rem; font-weight: bold; color: var(--gold); display: block; }
-        .stat-label { font-size: 0.7rem; opacity: 0.7; }
-
-        .btn-gold {
-            display: block; width: 100%; padding: 12px; margin-top: 10px;
-            background: linear-gradient(145deg, var(--gold), #b8962e);
-            color: black; border-radius: 10px; text-decoration: none; font-weight: bold;
+        /* الشروط */
+        .terms-link {
+            font-size: 0.75rem; cursor: pointer; text-decoration: underline;
+            margin-top: 15px; opacity: 0.5; display: inline-block;
         }
 
-        /* تنسيق الشروط والأحكام */
+        /* نافذة الشروط */
         .modal {
-            display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+            display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
         }
         .modal-content {
-            background: #111; margin: 15% auto; padding: 20px; border: 1px solid var(--gold);
-            width: 80%; max-height: 60%; overflow-y: auto; border-radius: 15px; text-align: right;
+            background: #0a0a0a; margin: 15% auto; padding: 25px; border: 1px solid var(--gold);
+            width: 80%; border-radius: 20px; text-align: right; box-shadow: 0 0 30px var(--gold);
         }
-        .close-modal { color: var(--gold); float: left; font-size: 20px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -64,49 +93,66 @@
     </video>
 
     <div class="main-card">
-        <div class="live-bar">
-            <div class="marquee" id="marquee-text">جاري معالجة طلب: رشق 5000 متابع... تم بنجاح ✅ • عميل جديد قام بشراء مشاهدات 4K 👁️ • تحديث خدمات تليجرام الآن...</div>
-        </div>
-
-        <h2 style="margin:0; color:var(--gold); font-size: 1.5rem;">إنجازات VIP ⭐</h2>
+        <div class="logo-glow">👑</div>
+        <h1 style="margin:0; color:var(--gold); letter-spacing: 1px;">نظام الفخامة المتكامل</h1>
+        <p style="opacity: 0.7; font-size: 0.9rem;">الريادة في عالم رشق وتطوير الحسابات</p>
 
         <div class="stats-grid">
-            <div class="stat-item"><span class="stat-num" data-target="4">0</span><span class="stat-label">مليون مشاهدة 👁️</span></div>
-            <div class="stat-item"><span class="stat-num" data-target="2.4">0</span><span class="stat-label">مليون تفاعل ❤️</span></div>
-            <div class="stat-item"><span class="stat-num" data-target="600">0</span><span class="stat-label">ألف مشترك 👤</span></div>
-            <div class="stat-item"><span class="stat-num" data-target="2">0</span><span class="stat-label">قناة حقيقية 📺</span></div>
+            <div class="stat-item">
+                <span class="stat-num" data-target="4">0</span>
+                <span class="stat-label">مليون مشاهدة 👁️</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num" data-target="2.4">0</span>
+                <span class="stat-label">مليون تفاعل ❤️</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num" data-target="600">0</span>
+                <span class="stat-label">ألف مشترك 👤</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num" data-target="2">0</span>
+                <span class="stat-label">قناة حقيقية 📺</span>
+            </div>
         </div>
 
-        <a href="https://t.me/your_admin" class="btn-gold">اطلب خدمتك الآن</a>
-        <p onclick="openModal()" style="font-size: 0.7rem; cursor: pointer; text-decoration: underline; margin-top: 10px; opacity: 0.6;">قراءة الشروط والأحكام ⚖️</p>
+        <a href="https://t.me/t3tbbot" class="btn-gold">اطلب خدمتك الآن 🚀</a>
+        
+        <span class="terms-link" onclick="toggleModal(true)">الشروط والأحكام الخاصة بالخدمة ⚖️</span>
+
+        <div class="bottom-marquee">
+            <div class="marquee-content">
+                ✨ مشترك جديد انضم الآن للبوت .. أهلاً بك! • 📊 إحصائياتنا اليومية في تزايد مستمر • ✅ تم رشق 10K تفاعل قبل قليل • 🛡️ نظام حماية فائق لجميع الحسابات • 🚀 انضم لأكثر من 13,000 عميل يثقون بنا ..
+            </div>
+        </div>
     </div>
 
     <div id="termsModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h3 style="color: var(--gold);">⚖️ الشروط والأحكام</h3>
-            <p style="font-size: 0.8rem; line-height: 1.6; opacity: 0.9;">
-                1. لا نطلب كلمة سر حسابك نهائياً.<br>
-                2. يجب أن يكون الحساب عاماً وليس خاصاً أثناء التنفيذ.<br>
-                3. لا يوجد تعويض في حال تم تغيير يوزر الحساب أثناء الرشق.<br>
-                4. وقت البدء يعتمد على ضغط السيرفرات (غالباً فوري).<br>
-                5. بمجرد الدفع لا يمكن إلغاء الطلب.
+            <h3 style="color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 10px;">⚖️ الشروط والالتزامات</h3>
+            <p style="font-size: 0.85rem; line-height: 1.8; opacity: 0.9;">
+                - نضمن جودة الرشق لجميع الخدمات المتوفرة.<br>
+                - يجب التأكد من صحة الرابط قبل إتمام الطلب.<br>
+                - الدعم الفني متواجد على مدار الساعة لخدمتكم.<br>
+                - الخصوصية التامة لمعلومات العملاء هي أولويتنا.<br>
+                - جميع العمليات تتم عبر خوادم آمنة وسريعة.
             </p>
+            <button onclick="toggleModal(false)" style="background: var(--gold); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px;">فهمت ذلك</button>
         </div>
     </div>
 
     <audio id="music" loop><source src="boss2014.mp3" type="audio/mpeg"></audio>
 
     <script>
-        // العدادات
+        // العدادات التصاعدية بالأرقام المطلوبة
         const counters = document.querySelectorAll('.stat-num');
         counters.forEach(counter => {
             const updateCount = () => {
                 const target = parseFloat(counter.getAttribute('data-target'));
                 const count = parseFloat(counter.innerText);
-                const increment = target / 50;
+                const speed = target / 40;
                 if (count < target) {
-                    counter.innerText = (count + increment).toFixed(target < 10 ? 1 : 0);
+                    counter.innerText = (count + speed).toFixed(target < 10 ? 1 : 0);
                     setTimeout(updateCount, 30);
                 } else {
                     if (target === 4) counter.innerText = "4M";
@@ -118,11 +164,8 @@
             updateCount();
         });
 
-        // دوال النافذة المنبثقة
-        function openModal() { document.getElementById("termsModal").style.display = "block"; }
-        function closeModal() { document.getElementById("termsModal").style.display = "none"; }
-
-        // تشغيل الصوت
+        // تشغيل الموسيقى والتحكم بالنافذة
+        function toggleModal(show) { document.getElementById("termsModal").style.display = show ? "block" : "none"; }
         document.body.addEventListener('click', () => { document.getElementById('music').play(); }, { once: true });
     </script>
 </body>
