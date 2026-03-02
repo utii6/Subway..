@@ -175,7 +175,7 @@
         // إعدادات Supabase
         const S_URL = 'https://irvonmleemfipjynbmrf.supabase.co';
         const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlydm9ubWxlZW1maXBqeW5ibXJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NDMzMTgsImV4cCI6MjA4ODAxOTMxOH0.e5sm_2ZihfRZOdW-4BQzfXCXlfvSdLXCK3VHBKKfHwA';
-        const supabaseClient = supabase.createClient(S_URL, S_KEY);
+        const supabase = supabase.createClient(S_URL, S_KEY);
 
         const tg = window.Telegram.WebApp;
         tg.expand();
