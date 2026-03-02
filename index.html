@@ -228,20 +228,27 @@
             }
         }
 
-        async function sendReview() {
-            const msg = document.getElementById('userMsg').value;
-            if(!msg) return;
-            const { error } = await supabaseClient.from('comments').insert([{ 
-                name: user.first_name, 
-                photo: user.photo_url || "https://i.pravatar.cc/150", 
-                rating: parseInt(userRating), 
-                msg: msg 
-            }]);
-            if(!error) {
-                document.getElementById('userMsg').value = '';
-                loadComments();
-            }
+async function sendReview() {
+    const msg = document.getElementById('userMsg').value;
+    if(!msg) return alert("اكتب شيئاً أولاً");
+
+    try {
+        const { error } = await supabase.from('comments').insert([
+            { name: user.first_name, msg: msg, rating: 5, photo: user.photo_url }
+        ]);
+
+        if (error) {
+            alert("فشل الإرسال: " + error.message);
+        } else {
+            alert("تم النشر بنجاح!");
+            location.reload(); // لإعادة تحميل الصفحة ورؤية التعليق
         }
+    } catch (err) {
+        alert("خطأ برمجي: " + err.message);
+    }
+}
+
+
 
         window.onload = () => {
             updateCounters();
