@@ -175,7 +175,8 @@
         // إعدادات Supabase
         const S_URL = 'https://irvonmleemfipjynbmrf.supabase.co';
         const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlydm9ubWxlZW1maXBqeW5ibXJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NDMzMTgsImV4cCI6MjA4ODAxOTMxOH0.e5sm_2ZihfRZOdW-4BQzfXCXlfvSdLXCK3VHBKKfHwA';
-        const supabase = supabase.createClient(S_URL, S_KEY);
+        const MySupabase = supabase.createClient(S_URL, S_KEY);
+
 
         const tg = window.Telegram.WebApp;
         tg.expand();
@@ -211,42 +212,45 @@
             }
         });
 
-        async function loadComments() {
-            const { data, error } = await supabaseClient.from('comments').select('*').order('created_at', { ascending: false });
-            if (data) {
-                const div = document.getElementById('listComments');
-                div.innerHTML = '';
-                data.forEach(c => {
-                    div.innerHTML += `
-                        <div class="comment-card">
-                            <img src="${c.photo || 'https://i.pravatar.cc/150'}" class="comment-avatar">
-                            <div class="comment-name">${c.name}</div>
-                            <div class="stars-display">${"⭐".repeat(c.rating)}</div>
-                            <div class="comment-text">${c.msg}</div>
-                        </div>`;
-                });
-            }
-        }
+async function loadComments() {
+    // تم تغيير الكلمة هنا إلى MySupabase
+    const { data, error } = await MySupabase.from('comments').select('*').order('created_at', { ascending: false });
+    
+    if (data) {
+        const div = document.getElementById('listComments');
+        div.innerHTML = '';
+        data.forEach(c => {
+            div.innerHTML += `
+                <div class="comment-card">
+                    <img src="${c.photo || 'https://i.pravatar.cc/150'}" class="comment-avatar">
+                    <div class="comment-name">${c.name}</div>
+                    <div class="stars-display">${"⭐".repeat(c.rating)}</div>
+                    <div class="comment-text">${c.msg}</div>
+                </div>`;
+        });
+    }
+}
 
 async function sendReview() {
     const msg = document.getElementById('userMsg').value;
-    if(!msg) return alert("اكتب شيئاً أولاً");
+    if(!msg) return;
+    
+    // تم تغيير الكلمة هنا أيضاً إلى MySupabase
+    const { error } = await MySupabase.from('comments').insert([{ 
+        name: user.first_name, 
+        photo: user.photo_url || "https://i.pravatar.cc/150", 
+        rating: parseInt(userRating), 
+        msg: msg 
+    }]);
 
-    try {
-        const { error } = await supabase.from('comments').insert([
-            { name: user.first_name, msg: msg, rating: 5, photo: user.photo_url }
-        ]);
-
-        if (error) {
-            alert("فشل الإرسال: " + error.message);
-        } else {
-            alert("تم النشر بنجاح!");
-            location.reload(); // لإعادة تحميل الصفحة ورؤية التعليق
-        }
-    } catch (err) {
-        alert("خطأ برمجي: " + err.message);
+    if(!error) {
+        document.getElementById('userMsg').value = '';
+        loadComments();
+    } else {
+        alert("فشل الإرسال: " + error.message);
     }
 }
+
 
 
 
