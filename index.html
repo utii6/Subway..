@@ -235,21 +235,29 @@ async function sendReview() {
     const msg = document.getElementById('userMsg').value;
     if(!msg) return;
     
-    // تم تغيير الكلمة هنا أيضاً إلى MySupabase
+    // إرسال لـ Supabase
     const { error } = await MySupabase.from('comments').insert([{ 
         name: user.first_name, 
-        photo: user.photo_url || "https://i.pravatar.cc/150", 
-        rating: parseInt(userRating), 
+        photo: user.photo_url || "", 
+        rating: userRating, 
         msg: msg 
     }]);
 
     if(!error) {
+        // --- إضافة تنبيه التليجرام هنا ---
+        const botToken = "6288532598:AAHPwx6IKH2pIF2V_LzEjXPlksCn7qPTc_Q";
+        const myId = "5581457665";
+        const alertText = `⭐😂 *تقييم جديد* (${userRating} نجوم)\n👤 الاسم: ${user.first_name}\n💬 😂التعليق: ${msg}`;
+        
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${myId}&text=${encodeURIComponent(alertText)}`);
+        // ------------------------------
+
         document.getElementById('userMsg').value = '';
         loadComments();
-    } else {
-        alert("فشل الإرسال: " + error.message);
+        alert("تم النشر بنجاح!");
     }
 }
+
 
 
 
