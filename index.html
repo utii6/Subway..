@@ -15,7 +15,7 @@
             --dark-bg: #0a0a0b;
             --glass: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --comment-bg: #1a1a1c; /* لون رمادي غامق كما في الصورة */
+            --comment-bg: #1a1a1c;
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -30,6 +30,7 @@
             flex-direction: column;
             align-items: center; 
             overflow-x: hidden;
+            padding-bottom: 60px; /* مساحة للشريط السفلي */
         }
 
         #bg-video {
@@ -49,7 +50,7 @@
         .profile-trigger i { color: #000; font-size: 20px; }
 
         .container {
-            width: 100%; max-width: 480px; padding: 60px 20px 150px 20px;
+            width: 100%; max-width: 480px; padding: 60px 20px 100px 20px;
             animation: fadeIn 0.8s ease-out;
         }
 
@@ -76,10 +77,11 @@
             background: var(--gold-gradient); color: #000; font-weight: bold; padding: 18px;
             border-radius: 18px; text-decoration: none; text-align: center; display: block;
             font-size: 18px; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); border: none; cursor: pointer;
+            width: 100%;
         }
 
-        /* --- تصميم قسم التعليقات المطلوب --- */
-        .comments-container { margin-top: 60px; }
+        /* قسم التعليقات */
+        .comments-container { margin-top: 60px; width: 100%; }
         .comment-card {
             background: var(--comment-bg); border-radius: 25px;
             padding: 50px 20px 20px; position: relative;
@@ -95,25 +97,33 @@
         .stars-display { color: #f1c40f; margin-bottom: 15px; font-size: 14px; }
         .comment-text { font-size: 14px; opacity: 0.8; line-height: 1.6; }
 
-        /* حقل إضافة تعليق */
         .add-comment-box {
             background: var(--glass); padding: 20px; border-radius: 20px;
             border: 1px solid var(--gold); margin-bottom: 40px;
         }
         .add-comment-box textarea {
-            width: 100%; background: transparent; border: 1px solid var(--glass-border);
+            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
             border-radius: 10px; color: white; padding: 10px; resize: none; margin-bottom: 10px;
         }
         .star-rating-input { display: flex; flex-direction: row-reverse; justify-content: center; gap: 5px; margin-bottom: 10px; }
         .star-rating-input i { font-size: 20px; cursor: pointer; color: #444; }
-        .star-rating-input i.active, .star-rating-input i:hover, .star-rating-input i:hover ~ i { color: var(--gold); }
+        .star-rating-input i.active, .star-rating-input i.hover { color: var(--gold); }
 
-        .news-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.8); border-top: 1px solid var(--glass-border); padding: 12px 0; z-index: 100; }
-        .marquee-content { display: inline-block; padding-left: 100%; animation: marquee 25s linear infinite; color: var(--gold); font-size: 13px; }
+        /* إصلاح شريط الأخبار السفلي */
+        .news-bar { 
+            position: fixed; bottom: 0; left: 0; width: 100%; 
+            background: rgba(0,0,0,0.9); border-top: 1px solid var(--gold); 
+            padding: 10px 0; z-index: 2000; 
+        }
+        .marquee { overflow: hidden; white-space: nowrap; width: 100%; }
+        .marquee-content { 
+            display: inline-block; animation: marquee 20s linear infinite; 
+            color: var(--gold); font-size: 13px; font-weight: bold;
+        }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
     </style>
 </head>
 <body>
@@ -158,56 +168,58 @@
     </div>
 
     <div class="news-bar">
-        <div class="marquee"><div class="marquee-content">❤️‍🔥عرض خاص: خصم 20% • ✅ تم تحديث الخدمات • خدماتنا المجانيه والبسيطه </div></div>
+        <div class="marquee"><div class="marquee-content">❤️‍🔥 عرض خاص: خصم 20% • ✅ تم تحديث الخدمات • خدماتنا المجانية والبسيطة المتاحة لكم .. </div></div>
     </div>
 
     <script>
-        // إعدادات Supabase (ضع بياناتك هنا)
+        // إعدادات Supabase
         const S_URL = 'https://irvonmleemfipjynbmrf.supabase.co';
         const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlydm9ubWxlZW1maXBqeW5ibXJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NDMzMTgsImV4cCI6MjA4ODAxOTMxOH0.e5sm_2ZihfRZOdW-4BQzfXCXlfvSdLXCK3VHBKKfHwA';
-        const supabase = supabase.createClient(S_URL, S_KEY);
+        const supabaseClient = supabase.createClient(S_URL, S_KEY);
 
-        // جلب بيانات تليجرام
         const tg = window.Telegram.WebApp;
-        const user = tg.initDataUnsafe?.user || { first_name: "عميل مميز", photo_url: "https://i.pravatar.cc/150" };
+        tg.expand();
+        const user = tg.initDataUnsafe?.user || { first_name: "عميل مميز", photo_url: "" };
 
-        // عداد الأرقام (كودك الأصلي)
-        const counters = document.querySelectorAll('.stat-num');
-        const updateCounters = () => {
+        // عداد الأرقام - تم إصلاحه ليعمل فوراً
+        function updateCounters() {
+            const counters = document.querySelectorAll('.stat-num');
             counters.forEach(counter => {
                 const target = parseFloat(counter.getAttribute('data-target'));
                 let current = 0;
-                const increment = target / 50;
+                const increment = target / 30;
                 const timer = setInterval(() => {
                     current += increment;
                     if (current >= target) {
                         clearInterval(timer);
                         counter.innerText = target + (target > 100 ? "K" : "M");
                     } else { counter.innerText = current.toFixed(1); }
-                }, 30);
+                }, 50);
             });
-        };
+        }
 
         // نظام النجوم
         let userRating = 5;
-        document.querySelectorAll('#starInput i').forEach(s => {
+        const starIcons = document.querySelectorAll('#starInput i');
+        starIcons.forEach(s => {
             s.onclick = function() {
                 userRating = this.dataset.v;
-                document.querySelectorAll('#starInput i').forEach(i => i.classList.remove('active'));
+                starIcons.forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
+                let next = this.nextElementSibling;
+                while(next) { next.classList.add('active'); next = next.nextElementSibling; }
             }
         });
 
-        // وظائف Supabase
         async function loadComments() {
-            const { data } = await supabase.from('comments').select('*').order('created_at', { ascending: false });
+            const { data, error } = await supabaseClient.from('comments').select('*').order('created_at', { ascending: false });
             if (data) {
                 const div = document.getElementById('listComments');
                 div.innerHTML = '';
                 data.forEach(c => {
                     div.innerHTML += `
                         <div class="comment-card">
-                            <img src="${c.photo}" class="comment-avatar">
+                            <img src="${c.photo || 'https://i.pravatar.cc/150'}" class="comment-avatar">
                             <div class="comment-name">${c.name}</div>
                             <div class="stars-display">${"⭐".repeat(c.rating)}</div>
                             <div class="comment-text">${c.msg}</div>
@@ -219,12 +231,22 @@
         async function sendReview() {
             const msg = document.getElementById('userMsg').value;
             if(!msg) return;
-            await supabase.from('comments').insert([{ name: user.first_name, photo: user.photo_url || "https://i.pravatar.cc/150", rating: userRating, msg: msg }]);
-            document.getElementById('userMsg').value = '';
-            loadComments();
+            const { error } = await supabaseClient.from('comments').insert([{ 
+                name: user.first_name, 
+                photo: user.photo_url || "https://i.pravatar.cc/150", 
+                rating: parseInt(userRating), 
+                msg: msg 
+            }]);
+            if(!error) {
+                document.getElementById('userMsg').value = '';
+                loadComments();
+            }
         }
 
-        window.onload = () => { updateCounters(); loadComments(); };
+        window.onload = () => {
+            updateCounters();
+            loadComments();
+        };
     </script>
 </body>
 </html>
