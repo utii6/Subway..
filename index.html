@@ -233,30 +233,47 @@ async function loadComments() {
 
 async function sendReview() {
     const msg = document.getElementById('userMsg').value;
-    if(!msg) return;
+    if (!msg) return;
+
+    // تجهيز بيانات المستخدم
+    const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || "مستخدم مجهول";
+    const username = user.username ? `@${user.username}` : "لا يوجد يوزر";
     
-    // إرسال لـ Supabase
-    const { error } = await MySupabase.from('comments').insert([{ 
-        name: user.first_name, 
-        photo: user.photo_url || "", 
-        rating: userRating, 
-        msg: msg 
+    // إرسال البيانات إلى Supabase
+    const { error } = await MySupabase.from('comments').insert([{
+        name: fullName,
+        photo: user.photo_url || "",
+        rating: userRating,
+        msg: msg
     }]);
 
-    if(!error) {
-        // --- إضافة تنبيه التليجرام هنا ---
+    if (!error) {
+        // --- إعدادات تنبيه التليجرام ---
         const botToken = "6288532598:AAHPwx6IKH2pIF2V_LzEjXPlksCn7qPTc_Q";
         const myId = "5581457665";
-        const alertText = `⭐😂 *تقييم جديد* (${userRating} نجوم)\n👤 الاسم: ${user.first_name}\n💬 😂التعليق: ${msg}`;
         
-        fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${myId}&text=${encodeURIComponent(alertText)}`);
-        // ------------------------------
+        // نص التنبيه (مع رابط لفتح حساب الشخص مباشرة)
+        const alertText = `
+⭐😂 *تقييم جديد* (${userRating} نجوم)
+👤💁 الاسم: ${fullName}
+🆔 يمعود اليوزر: [${username}](https://t.me/${user.username || ''})
+💬😂 تعليق الحلوو: ${msg}
+        `.trim();
 
+        // إرسال الإشعار عبر Fetch
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${myId}&text=${encodeURIComponent(alertText)}&parse_mode=Markdown&disable_web_page_preview=true`)
+        .catch(err => console.error("خطأ في إرسال التنبيه:", err));
+
+        // تنظيف الواجهة بعد النجاح
         document.getElementById('userMsg').value = '';
         loadComments();
-        alert("تم النشر بنجاح!");
+        alert("تم النشر بنجاح! ❤️‍🔥🎉");
+    } else {
+        console.error("خطأ في Supabase:", error);
+        alert("فشل النشر: " + error.message);
     }
 }
+
 
 
 
