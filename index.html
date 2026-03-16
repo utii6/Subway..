@@ -176,26 +176,28 @@
         const MySupabase = supabase.createClient(S_URL, S_KEY);
 
 
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        const user = tg.initDataUnsafe?.user || { first_name: "عميل مميز", photo_url: "" };
+const tg = window.Telegram.WebApp;
+tg.expand();
+const user = tg.initDataUnsafe?.user || { first_name: "عميل مميز", photo_url: "" };
 
-        // عداد الأرقام - تم إصلاحه ليعمل فوراً
-        function updateCounters() {
-            const counters = document.querySelectorAll('.stat-num');
-            counters.forEach(counter => {
-                const target = parseFloat(counter.getAttribute('data-target'));
-                let current = 0;
-                const increment = target / 30;
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        clearInterval(timer);
-                        counter.innerText = target + (target > 100 ? "K" : "M");
-                    } else { counter.innerText = current.toFixed(1); }
-                }, 50);
-            });
-        }
+// 1. تعريف دالة العداد
+function updateCounters() {
+    const counters = document.querySelectorAll('.stat-num');
+    counters.forEach(counter => {
+        const target = parseFloat(counter.getAttribute('data-target'));
+        let current = 0;
+        const increment = target / 30;
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                clearInterval(timer);
+                counter.innerText = target + (target > 100 ? "K" : "M");
+            } else { counter.innerText = current.toFixed(1); }
+        }, 50);
+    });
+}
+
+// 2. كود الموسيقى
 const music = document.getElementById('bgMusic');
 const musicIcon = document.getElementById('musicIcon');
 let isPlaying = false;
@@ -214,7 +216,12 @@ function toggleMusic() {
     isPlaying = !isPlaying;
 }
 
-music.volume = 0.4;
+// 3. تشغيل العداد فوراً عند تحميل الصفحة لتعود الأرقام للظهور
+updateCounters();
+
+// 4. ضبط مستوى الصوت الافتراضي
+if(music) music.volume = 0.4;
+
 
         // نظام النجوم
         let userRating = 5;
