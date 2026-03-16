@@ -20,18 +20,16 @@
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        body { 
-            background: var(--dark-bg); 
-            color: white; 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            margin: 0; 
-            min-height: 100vh;
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            overflow-x: hidden;
-            padding-bottom: 60px; /* مساحة للشريط السفلي */
-        }
+<body style="background: var(--dark-bg); color: white; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; padding-bottom: 60px;">
+
+    <audio id="bgMusic" loop>
+        <source src="Music_bot.mp3.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="musicControl" onclick="toggleMusic()" style="position: fixed; bottom: 80px; left: 20px; z-index: 9999; background: rgba(0,0,0,0.7); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid gold; box-shadow: 0 0 10px rgba(255,215,0,0.3);">
+        <span id="musicIcon" style="font-size: 20px;">🔇</span>
+    </div>
+
 
         #bg-video {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -160,7 +158,7 @@
                     <i class="fa-solid fa-star" data-v="1"></i>
                 </div>
                 <textarea id="userMsg" rows="2" placeholder="اكتب تجربتك هنا..."></textarea>
-                <button onclick="sendReview()" class="btn-main" style="padding: 10px; font-size: 14px;">نشر التعليق</button>
+                <button onclick="sendReview()" class="btn-main" style="padding: 10px; font-size: 14px;"> 🔥نشر التعليق</button>
             </div>
 
             <div id="listComments"></div>
@@ -168,7 +166,7 @@
     </div>
 
     <div class="news-bar">
-        <div class="marquee"><div class="marquee-content">❤️‍🔥 عرض خاص: خصم 20% • ✅ تم تحديث الخدمات • خدماتنا المجانية والبسيطة المتاحة لكم .. </div></div>
+        <div class="marquee"><div class="marquee-content">❤️‍🔥 عرض خاص: خصم 31% • ✅ تم تحديث الخدمات المجانيه • خدماتنا المجانية والبسيطة المتاحة لكم .. </div></div>
     </div>
 
     <script>
@@ -198,6 +196,25 @@
                 }, 50);
             });
         }
+const music = document.getElementById('bgMusic');
+const musicIcon = document.getElementById('musicIcon');
+let isPlaying = false;
+
+function toggleMusic() {
+    if (isPlaying) {
+        music.pause();
+        musicIcon.innerText = "🔇";
+    } else {
+        music.volume = 0.4;
+        music.play().catch(e => {
+            console.log("التشغيل يتطلب تفاعل المستخدم أولاً");
+        });
+        musicIcon.innerText = "🔊";
+    }
+    isPlaying = !isPlaying;
+}
+
+music.volume = 0.4;
 
         // نظام النجوم
         let userRating = 5;
