@@ -176,51 +176,53 @@
         const MySupabase = supabase.createClient(S_URL, S_KEY);
 
 
-const tg = window.Telegram.WebApp;
-tg.expand();
-const user = tg.initDataUnsafe?.user || { first_name: "عميل مميز", photo_url: "" };
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        const user = tg.initDataUnsafe?.user || { first_name: "عميل مميز", photo_url: "" };
 
-// 1. تعريف دالة العداد
-function updateCounters() {
-    const counters = document.querySelectorAll('.stat-num');
-    counters.forEach(counter => {
-        const target = parseFloat(counter.getAttribute('data-target'));
-        let current = 0;
-        const increment = target / 30;
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                clearInterval(timer);
-                counter.innerText = target + (target > 100 ? "K" : "M");
-            } else { counter.innerText = current.toFixed(1); }
-        }, 50);
-    });
-}
+        // 1. دالة العداد (تم استدعاؤها في الأسفل لتشغيل الأرقام)
+        function updateCounters() {
+            const counters = document.querySelectorAll('.stat-num');
+            counters.forEach(counter => {
+                const target = parseFloat(counter.getAttribute('data-target'));
+                if (isNaN(target)) return;
+                let current = 0;
+                const increment = target / 30;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        clearInterval(timer);
+                        counter.innerText = target + (target > 100 ? "K" : "M");
+                    } else { counter.innerText = current.toFixed(1); }
+                }, 50);
+            });
+        }
 
-// 2. كود الموسيقى
-const music = document.getElementById('bgMusic');
-const musicIcon = document.getElementById('musicIcon');
-let isPlaying = false;
+        // 2. كود الموسيقى (باستخدام ملفك Music_bot.mp3.mp3)
+        const music = document.getElementById('bgMusic');
+        const musicIcon = document.getElementById('musicIcon');
+        let isPlaying = false;
 
-function toggleMusic() {
-    if (isPlaying) {
-        music.pause();
-        musicIcon.innerText = "🔇";
-    } else {
-        music.volume = 0.4;
-        music.play().catch(e => {
-            console.log("التشغيل يتطلب تفاعل المستخدم أولاً");
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicIcon.innerText = "🔇";
+            } else {
+                music.volume = 0.4;
+                music.play().catch(e => console.log("تفاعل مع الشاشة أولاً"));
+                musicIcon.innerText = "🔊";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // 3. تشغيل الدوال (هذا الجزء هو ما كان ينقصك لإظهار البيانات)
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCounters(); // لتشغيل الأرقام فوراً
+            if (typeof loadComments === 'function') loadComments(); // لتشغيل جلب التعليقات من Supabase
         });
-        musicIcon.innerText = "🔊";
-    }
-    isPlaying = !isPlaying;
-}
 
-// 3. تشغيل العداد فوراً عند تحميل الصفحة لتعود الأرقام للظهور
-updateCounters();
+        if(music) music.volume = 0.4;
 
-// 4. ضبط مستوى الصوت الافتراضي
-if(music) music.volume = 0.4;
 
 
         // نظام النجوم
