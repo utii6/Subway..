@@ -20,16 +20,18 @@
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-<body style="background: var(--dark-bg); color: white; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; padding-bottom: 60px;">
-
-    <audio id="bgMusic" loop>
-        <source src="Music_bot.mp3.mp3" type="audio/mpeg">
-    </audio>
-
-    <div id="musicControl" onclick="toggleMusic()" style="position: fixed; bottom: 80px; left: 20px; z-index: 9999; background: rgba(0,0,0,0.7); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid gold; box-shadow: 0 0 10px rgba(255,215,0,0.3);">
-        <span id="musicIcon" style="font-size: 20px;">🔇</span>
-    </div>
-
+        body { 
+            background: var(--dark-bg); 
+            color: white; 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            min-height: 100vh;
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            overflow-x: hidden;
+            padding-bottom: 60px;
+        }
 
         #bg-video {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -68,8 +70,13 @@
             padding: 20px 15px; border-radius: 24px; backdrop-filter: blur(10px); text-align: center;
         }
         .stat-card i { color: var(--gold); font-size: 22px; margin-bottom: 8px; display: block; }
-        .stat-num { font-size: 22px; font-weight: 800; display: block; margin-bottom: 4px; }
-        .stat-label { font-size: 11px; text-transform: uppercase; opacity: 0.5; }
+        
+        /* إصلاح لون الأرقام هنا */
+        .stat-num { 
+            font-size: 22px; font-weight: 800; display: block; margin-bottom: 4px; 
+            color: var(--gold) !important; 
+        }
+        .stat-label { font-size: 11px; text-transform: uppercase; opacity: 0.5; color: white; }
 
         .btn-main {
             background: var(--gold-gradient); color: #000; font-weight: bold; padding: 18px;
@@ -78,7 +85,6 @@
             width: 100%;
         }
 
-        /* قسم التعليقات */
         .comments-container { margin-top: 60px; width: 100%; }
         .comment-card {
             background: var(--comment-bg); border-radius: 25px;
@@ -91,9 +97,9 @@
             top: -40px; left: 50%; transform: translateX(-50%);
             background: #222; object-fit: cover;
         }
-        .comment-name { font-weight: bold; font-size: 18px; margin-bottom: 5px; }
+        .comment-name { font-weight: bold; font-size: 18px; margin-bottom: 5px; color: white; }
         .stars-display { color: #f1c40f; margin-bottom: 15px; font-size: 14px; }
-        .comment-text { font-size: 14px; opacity: 0.8; line-height: 1.6; }
+        .comment-text { font-size: 14px; opacity: 0.8; line-height: 1.6; color: #ccc; }
 
         .add-comment-box {
             background: var(--glass); padding: 20px; border-radius: 20px;
@@ -105,9 +111,8 @@
         }
         .star-rating-input { display: flex; flex-direction: row-reverse; justify-content: center; gap: 5px; margin-bottom: 10px; }
         .star-rating-input i { font-size: 20px; cursor: pointer; color: #444; }
-        .star-rating-input i.active, .star-rating-input i.hover { color: var(--gold); }
+        .star-rating-input i.active { color: var(--gold); }
 
-        /* إصلاح شريط الأخبار السفلي */
         .news-bar { 
             position: fixed; bottom: 0; left: 0; width: 100%; 
             background: rgba(0,0,0,0.9); border-top: 1px solid var(--gold); 
@@ -126,7 +131,17 @@
 </head>
 <body>
 
-    <video autoplay muted loop playsinline id="bg-video"><source src="FullHD.MP4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="FullHD.MP4" type="video/mp4">
+    </video>
+
+    <audio id="bgMusic" loop>
+        <source src="Music_bot.mp3.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="musicControl" onclick="toggleMusic()" style="position: fixed; bottom: 80px; left: 20px; z-index: 9999; background: rgba(0,0,0,0.7); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid gold; box-shadow: 0 0 10px rgba(255,215,0,0.3);">
+        <span id="musicIcon" style="font-size: 20px;">🔇</span>
+    </div>
 
     <a href="https://t.me/E2E12" class="profile-trigger"><i class="fa-solid fa-user-tie"></i></a>
 
@@ -170,22 +185,18 @@
     </div>
 
     <script>
-        // إعدادات Supabase
         const S_URL = 'https://irvonmleemfipjynbmrf.supabase.co';
         const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlydm9ubWxlZW1maXBqeW5ibXJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NDMzMTgsImV4cCI6MjA4ODAxOTMxOH0.e5sm_2ZihfRZOdW-4BQzfXCXlfvSdLXCK3VHBKKfHwA';
         const MySupabase = supabase.createClient(S_URL, S_KEY);
 
-
         const tg = window.Telegram.WebApp;
         tg.expand();
-        const user = tg.initDataUnsafe?.user || { first_name: "عميل مميز", photo_url: "" };
+        const user = tg.initDataUnsafe?.user || { first_name: "مشترك مميز", photo_url: "" };
 
-        // 1. دالة العداد (تم استدعاؤها في الأسفل لتشغيل الأرقام)
         function updateCounters() {
             const counters = document.querySelectorAll('.stat-num');
             counters.forEach(counter => {
                 const target = parseFloat(counter.getAttribute('data-target'));
-                if (isNaN(target)) return;
                 let current = 0;
                 const increment = target / 30;
                 const timer = setInterval(() => {
@@ -198,7 +209,7 @@
             });
         }
 
-        // 2. كود الموسيقى (باستخدام ملفك Music_bot.mp3.mp3)
+        // الموسيقى
         const music = document.getElementById('bgMusic');
         const musicIcon = document.getElementById('musicIcon');
         let isPlaying = false;
@@ -208,22 +219,13 @@
                 music.pause();
                 musicIcon.innerText = "🔇";
             } else {
-                music.volume = 0.4;
-                music.play().catch(e => console.log("تفاعل مع الشاشة أولاً"));
-                musicIcon.innerText = "🔊";
+                music.volume = 0.5;
+                music.play().then(() => {
+                    musicIcon.innerText = "🔊";
+                }).catch(e => alert("يجب الضغط على الشاشة أولاً لتشغيل الصوت"));
             }
             isPlaying = !isPlaying;
         }
-
-        // 3. تشغيل الدوال (هذا الجزء هو ما كان ينقصك لإظهار البيانات)
-        document.addEventListener('DOMContentLoaded', () => {
-            updateCounters(); // لتشغيل الأرقام فوراً
-            if (typeof loadComments === 'function') loadComments(); // لتشغيل جلب التعليقات من Supabase
-        });
-
-        if(music) music.volume = 0.4;
-
-
 
         // نظام النجوم
         let userRating = 5;
@@ -238,72 +240,49 @@
             }
         });
 
-async function loadComments() {
-    // تم تغيير الكلمة هنا إلى MySupabase
-    const { data, error } = await MySupabase.from('comments').select('*').order('created_at', { ascending: false });
-    
-    if (data) {
-        const div = document.getElementById('listComments');
-        div.innerHTML = '';
-        data.forEach(c => {
-            div.innerHTML += `
-                <div class="comment-card">
-                    <img src="${c.photo || 'https://i.pravatar.cc/150'}" class="comment-avatar">
-                    <div class="comment-name">${c.name}</div>
-                    <div class="stars-display">${"⭐".repeat(c.rating)}</div>
-                    <div class="comment-text">${c.msg}</div>
-                </div>`;
-        });
-    }
-}
+        async function loadComments() {
+            const { data, error } = await MySupabase.from('comments').select('*').order('created_at', { ascending: false });
+            if (data) {
+                const div = document.getElementById('listComments');
+                div.innerHTML = '';
+                data.forEach(c => {
+                    div.innerHTML += `
+                        <div class="comment-card">
+                            <img src="${c.photo || 'https://i.pravatar.cc/150'}" class="comment-avatar">
+                            <div class="comment-name">${c.name}</div>
+                            <div class="stars-display">${"⭐".repeat(c.rating)}</div>
+                            <div class="comment-text">${c.msg}</div>
+                        </div>`;
+                });
+            }
+        }
 
-async function sendReview() {
-    const msg = document.getElementById('userMsg').value;
-    if (!msg) return;
+        async function sendReview() {
+            const msg = document.getElementById('userMsg').value;
+            if (!msg) return;
 
-    // تجهيز بيانات المستخدم
-    const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || "مستخدم مجهول";
-    const username = user.username ? `@${user.username}` : "لا يوجد يوزر";
-    
-    // إرسال البيانات إلى Supabase
-    const { error } = await MySupabase.from('comments').insert([{
-        name: fullName,
-        photo: user.photo_url || "",
-        rating: userRating,
-        msg: msg
-    }]);
+            const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || "مستخدم مجهول";
+            const username = user.username ? `@${user.username}` : "هم فقير وهم بلا يوزر";
+            
+            const { error } = await MySupabase.from('comments').insert([{
+                name: fullName,
+                photo: user.photo_url || "",
+                rating: userRating,
+                msg: msg
+            }]);
 
-    if (!error) {
-        // --- إعدادات تنبيه التليجرام ---
-        const botToken = "6288532598:AAHPwx6IKH2pIF2V_LzEjXPlksCn7qPTc_Q";
-        const myId = "5581457665";
-        
-        // نص التنبيه (مع رابط لفتح حساب الشخص مباشرة)
-        const alertText = `
-⭐😂 *تقييم جديد* (${userRating} نجوم)
-👤💁 الاسم: ${fullName}
-🆔 يمعود اليوزر: [${username}](https://t.me/${user.username || ''})
-💬😂 تعليق الحلوو: ${msg}
-        `.trim();
+            if (!error) {
+                const botToken = "6288532598:AAHPwx6IKH2pIF2V_LzEjXPlksCn7qPTc_Q";
+                const myId = "5581457665";
+                const alertText = `⭐ تقييم جديد (${userRating} نجوم)\n👤 اسم الحلو: ${fullName}\n🆔 وهذا يوزره: ${username}\n💬 تعليقه مثله: ${msg}`;
 
-        // إرسال الإشعار عبر Fetch
-        fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${myId}&text=${encodeURIComponent(alertText)}&parse_mode=Markdown&disable_web_page_preview=true`)
-        .catch(err => console.error("خطأ في إرسال التنبيه:", err));
+                fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${myId}&text=${encodeURIComponent(alertText)}`);
 
-        // تنظيف الواجهة بعد النجاح
-        document.getElementById('userMsg').value = '';
-        loadComments();
-        alert("تم النشر بنجاح! ❤️‍🔥🎉");
-    } else {
-        console.error("خطأ في Supabase:", error);
-        alert("فشل النشر: " + error.message);
-    }
-}
-
-
-
-
-
+                document.getElementById('userMsg').value = '';
+                loadComments();
+                alert("تم النشر بنجاح! ❤️‍🔥🦾");
+            }
+        }
 
         window.onload = () => {
             updateCounters();
