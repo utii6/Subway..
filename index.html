@@ -13,9 +13,9 @@
             --gold: #e2b04a; 
             --gold-gradient: linear-gradient(135deg, #f1c40f, #d4af37);
             --dark-bg: #0a0a0b;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --comment-bg: #1a1a1c;
+            --glass: rgba(0, 0, 0, 0.35);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --comment-bg: rgba(0, 0, 0, 0.45);
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -35,7 +35,7 @@
 
         #bg-video {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; object-fit: cover; filter: brightness(0.3);
+            z-index: -1; object-fit: cover; filter: brightness(0.65);
         }
 
         .profile-trigger {
@@ -67,11 +67,10 @@
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 25px 0; }
         .stat-card {
             background: var(--glass); border: 1px solid var(--glass-border);
-            padding: 20px 15px; border-radius: 24px; backdrop-filter: blur(10px); text-align: center;
+            padding: 20px 15px; border-radius: 24px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); text-align: center;
         }
         .stat-card i { color: var(--gold); font-size: 22px; margin-bottom: 8px; display: block; }
         
-        /* إصلاح لون الأرقام هنا */
         .stat-num { 
             font-size: 22px; font-weight: 800; display: block; margin-bottom: 4px; 
             color: var(--gold) !important; 
@@ -90,6 +89,7 @@
             background: var(--comment-bg); border-radius: 25px;
             padding: 50px 20px 20px; position: relative;
             text-align: center; margin-bottom: 60px; border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
         .comment-avatar {
             width: 80px; height: 80px; border-radius: 50%;
@@ -104,6 +104,7 @@
         .add-comment-box {
             background: var(--glass); padding: 20px; border-radius: 20px;
             border: 1px solid var(--gold); margin-bottom: 40px;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
         .add-comment-box textarea {
             width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
@@ -115,7 +116,7 @@
 
         .news-bar { 
             position: fixed; bottom: 0; left: 0; width: 100%; 
-            background: rgba(0,0,0,0.9); border-top: 1px solid var(--gold); 
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid var(--gold); 
             padding: 10px 0; z-index: 2000; 
         }
         .marquee { overflow: hidden; white-space: nowrap; width: 100%; }
@@ -127,7 +128,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-    </style>
+
 </head>
 <body>
 
@@ -185,8 +186,8 @@
     </div>
 
     <script>
-        const S_URL = 'https://irvonmleemfipjynbmrf.supabase.co';
-        const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlydm9ubWxlZW1maXBqeW5ibXJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NDMzMTgsImV4cCI6MjA4ODAxOTMxOH0.e5sm_2ZihfRZOdW-4BQzfXCXlfvSdLXCK3VHBKKfHwA';
+        const S_URL = 'https://uppigexrpcscwvxvbghh.supabase.co';
+        const S_KEY = 'sb_publishable_3_rclvwUllDHqSj18otngQ_wFFz-PMk';
         const MySupabase = supabase.createClient(S_URL, S_KEY);
 
         const tg = window.Telegram.WebApp;
