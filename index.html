@@ -69,7 +69,6 @@
         h1 { margin: 5px 0; font-size: 24px; color: var(--gold); text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
         .subtitle { opacity: 0.8; font-size: 14px; letter-spacing: 0.5px; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
 
-        /* العد التنازلي */
         .timer-box {
             background: rgba(0, 0, 0, 0.35); border: 1px dashed var(--gold);
             border-radius: 16px; padding: 12px; text-align: center; margin: 15px 0;
@@ -79,7 +78,6 @@
         .timer-title { font-size: 12px; color: #fff; opacity: 0.9; margin-bottom: 5px; }
         .timer-digits { font-size: 20px; font-weight: bold; color: var(--gold); letter-spacing: 2px; }
 
-        /* الشبكة الإحصائية */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
         .stat-card {
             background: var(--glass); border: 1px solid var(--glass-border);
@@ -93,7 +91,6 @@
         .stat-num { font-size: 22px; font-weight: 800; display: block; margin-bottom: 4px; color: var(--gold) !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
         .stat-label { font-size: 11px; text-transform: uppercase; opacity: 0.8; color: white; }
 
-        /* قسم الخدمات الحالي */
         .services-section { margin-top: 40px; }
         .section-title { text-align: center; color: var(--gold); font-size: 20px; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
         
@@ -121,7 +118,6 @@
         .service-badge { font-size: 10px; background: rgba(226, 176, 74, 0.2); color: var(--gold); padding: 3px 8px; border-radius: 8px; width: fit-content; margin-top: 2px; border: 1px solid rgba(226,176,74,0.3); }
         .service-price { font-size: 16px; font-weight: bold; color: var(--gold); text-align: left; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
 
-        /* الزر العائم للتواصل */
         .floating-order-btn {
             position: fixed; bottom: 45px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 440px; z-index: 3000;
@@ -133,7 +129,6 @@
         }
         .floating-order-btn:active { transform: translateX(-50%) scale(0.98); }
 
-        /* الأسئلة الشائعة */
         .faq-item {
             background: var(--glass); border: 1px solid var(--glass-border);
             border-radius: 16px; margin-bottom: 12px; overflow: hidden;
@@ -150,7 +145,6 @@
             padding: 0 16px; color: #ddd; font-size: 13px; line-height: 1.6;
         }
 
-        /* التعليقات */
         .comments-container { margin-top: 50px; width: 100%; }
         .comment-card {
             background: var(--comment-bg); border-radius: 25px;
@@ -184,7 +178,6 @@
         .star-rating-input i { font-size: 22px; cursor: pointer; color: #555; transition: 0.2s; }
         .star-rating-input i.active { color: var(--gold); text-shadow: 0 0 10px var(--gold); }
 
-        /* شريط الأخبار */
         .news-bar { 
             position: fixed; bottom: 0; left: 0; width: 100%; 
             background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); border-top: 1px solid var(--gold); 
@@ -193,7 +186,6 @@
         .marquee { overflow: hidden; white-space: nowrap; width: 100%; }
         .marquee-content { display: inline-block; animation: marquee 20s linear infinite; color: var(--gold); font-size: 12px; font-weight: bold; }
 
-        /* التنبيهات الحية */
         .toast-notification {
             position: fixed; top: 80px; right: 20px; z-index: 4000;
             background: rgba(0, 0, 0, 0.85); border: 1px solid var(--gold);
@@ -248,7 +240,6 @@
             <div class="stat-card"><i class="fa-solid fa-bolt"></i><span class="stat-num" data-target="479">0</span><span class="stat-label">قناة</span></div>
         </div>
 
-        <!-- قائمة الخدمات الحالية -->
         <div class="services-section">
             <h3 class="section-title">📊 قائمة الخدمات الحالية</h3>
             
@@ -260,7 +251,6 @@
             <div id="servicesList"></div>
         </div>
 
-        <!-- قسم الأسئلة الشائعة -->
         <div class="faq-section" style="margin-top: 40px; text-align: right;">
             <h3 style="text-align: center; color: var(--gold); margin-bottom: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">الأسئلة الشائعة ❓</h3>
             
@@ -305,7 +295,6 @@
             </div>
         </div>
 
-        <!-- قسم آراء المشتركين -->
         <div class="comments-container">
             <h3 style="text-align: center; color: var(--gold); margin-bottom: 30px; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">آراء المشتركين ⭐</h3>
 
@@ -325,7 +314,6 @@
         </div>
     </div>
 
-    <!-- الزر العائم للطلب -->
     <a id="floatingOrderBtn" href="https://t.me/E2E12" target="_blank" class="floating-order-btn" onclick="playClickSound()">
         <i class="fa-brands fa-telegram" style="font-size: 22px;"></i>
         <span id="floatingBtnText">تواصل للطلب مباشرة </span>
@@ -344,7 +332,6 @@
         tg.expand();
         const user = tg.initDataUnsafe?.user || { first_name: "مشترك مميز", photo_url: "" };
 
-        // تشغيل صوت النقر
         function playClickSound() {
             const sound = document.getElementById('clickSound');
             if (sound) {
@@ -353,7 +340,6 @@
             }
         }
 
-        // التحكم بفتح وإغلاق الأسئلة الشائعة
         function toggleFaq(element) {
             playClickSound();
             const answer = element.nextElementSibling;
@@ -379,7 +365,6 @@
             }
         }
 
-        // مصفوفة الخدمات
         const servicesData = [
             { cat: 'telegram', name: 'أعضاء قنوات ومجموعات', qty: 'رشـق 5,000', price: '5,000 د.ع', stars: '220 ⭐️', badge: '🔥 الأكثر طلباً' },
             { cat: 'telegram', name: 'مشاهدات منشورات', qty: '7,000 مشاهدة', price: '1,000 د.ع', stars: '70 ⭐️', badge: '⚡ تنفيذ فوري' },
@@ -428,11 +413,10 @@
             btnText.innerText = `طلب (${name}) - ${price}`;
             
             const orderBtn = document.getElementById('floatingOrderBtn');
-            const msg = encodeURIComponent(`أهلاً قاسم 👋، أود طلب خدمة: ${name} بسعر ${price}`);
+            const msg = encodeURIComponent(`أهلاً 👋، أود طلب خدمة: ${name} بسعر ${price}`);
             orderBtn.href = `https://t.me/E2E12?text=${msg}`;
         }
 
-        // عداد تنازلي
         function startTimer() {
             let duration = 3 * 3600 + 45 * 60 + 12;
             setInterval(() => {
@@ -445,7 +429,6 @@
             }, 1000);
         }
 
-        // إشعارات حية
         const toastMsgs = [
             "تم طلب 5,000 مشاهدة تليجرام الآن 🔥",
             "عضو جديد اشترك في باقة إنستغرام VIP 💎",
@@ -511,33 +494,26 @@
             }
         });
 
-        // تحميل التعليقات من Supabase مع التعليقات التفاعلية
+        // تم تعديل الدالة لإظهار التعليق المضاف مباشرة في الأعلى
         async function loadComments() {
             const div = document.getElementById('listComments');
-            try {
-                const { data, error } = await MySupabase.from('comments').select('*').order('created_at', { ascending: false });
-                if (data && data.length > 0) {
-                    div.innerHTML = '';
-                    data.forEach(c => {
-                        div.innerHTML += `
-                            <div class="comment-card">
-                                <img src="${c.photo || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + encodeURIComponent(c.name)}" class="comment-avatar">
-                                <div class="comment-name">${c.name}</div>
-                                <div class="stars-display">${"⭐".repeat(c.rating || 5)}</div>
-                                <div class="comment-text">${c.msg}</div>
-                            </div>`;
-                    });
-                } else {
-                    showDefaultComments();
-                }
-            } catch (e) {
-                showDefaultComments();
+            const { data } = await MySupabase.from('comments').select('*').order('created_at', { ascending: false });
+            
+            let html = '';
+            if (data && data.length > 0) {
+                data.forEach(c => {
+                    html += `
+                        <div class="comment-card">
+                            <img src="${c.photo || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + encodeURIComponent(c.name)}" class="comment-avatar">
+                            <div class="comment-name">${c.name}</div>
+                            <div class="stars-display">${"⭐".repeat(c.rating || 5)}</div>
+                            <div class="comment-text">${c.msg}</div>
+                        </div>`;
+                });
             }
-        }
-
-        function showDefaultComments() {
-            const div = document.getElementById('listComments');
-            div.innerHTML = `
+            
+            // إضافة التعليقات الافتراضية دائماً بأسفل التعليقات الحقيقية
+            html += `
                 <div class="comment-card">
                     <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ali" class="comment-avatar">
                     <div class="comment-name">علي الحلاق</div>
@@ -550,6 +526,7 @@
                     <div class="stars-display">⭐⭐⭐⭐⭐</div>
                     <div class="comment-text">افضل موقع للرشق والتفاعلات بدون اي نقصان عاشت ايدكم ✨</div>
                 </div>`;
+            div.innerHTML = html;
         }
 
         async function sendReview() {
@@ -562,24 +539,32 @@
 
             const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || "مشترك مميز";
             const username = user.username ? `@${user.username}` : "بلا يوزر";
-            
-            try {
-                const { error } = await MySupabase.from('comments').insert([{
-                    name: fullName, photo: user.photo_url || "", rating: userRating, msg: msg
-                }]);
+            const userPhoto = user.photo_url || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(fullName)}`;
 
-                const botToken = "8772752122:AAFsvrKAiLDPIBUD_blDGWdFPCLrAhqn2TY";
-                const myId = "5581457665";
-                const alertText = `⭐ تقييم جديد (${userRating} نجوم)\n👤 الاسم: ${fullName}\n🆔 اليوزر: ${username}\n💬 التعليق: ${msg}`;
+            // إرسال الإشعار للبوت
+            const botToken = "8772752122:AAFsvrKAiLDPIBUD_blDGWdFPCLrAhqn2TY";
+            const myId = "5581457665";
+            const alertText = `⭐ تقييم جديد (${userRating} نجوم)\n👤 الاسم: ${fullName}\n🆔 اليوزر: ${username}\n💬 التعليق: ${msg}`;
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${myId}&text=${encodeURIComponent(alertText)}`).catch(() => {});
 
-                fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${myId}&text=${encodeURIComponent(alertText)}`);
+            // الحفظ في Supabase مع إدراج مباشر في الواجهة لعدم التأخير
+            await MySupabase.from('comments').insert([{
+                name: fullName, photo: userPhoto, rating: userRating, msg: msg
+            }]);
 
-                document.getElementById('userMsg').value = '';
-                alert("تم نشر تقييمك بنجاح! ❤️‍🔥");
-                loadComments();
-            } catch (err) {
-                alert("تم إرسال تقييمك بنجاح!");
-            }
+            // إدراج البطاقة فوراً على الشاشة
+            const div = document.getElementById('listComments');
+            const newCommentHTML = `
+                <div class="comment-card" style="border-color: var(--gold); animation: fadeIn 0.5s;">
+                    <img src="${userPhoto}" class="comment-avatar">
+                    <div class="comment-name">${fullName}</div>
+                    <div class="stars-display">${"⭐".repeat(userRating)}</div>
+                    <div class="comment-text">${msg}</div>
+                </div>`;
+            div.insertAdjacentHTML('afterbegin', newCommentHTML);
+
+            document.getElementById('userMsg').value = '';
+            alert("تم نشر تقييمك بنجاح! 🎉");
         }
 
         window.onload = () => {
