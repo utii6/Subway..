@@ -13,9 +13,9 @@
             --gold: #e2b04a; 
             --gold-gradient: linear-gradient(135deg, #f1c40f, #d4af37);
             --dark-bg: #0a0a0b;
-            --glass: rgba(0, 0, 0, 0.35);
+            --glass: rgba(0, 0, 0, 0.45);
             --glass-border: rgba(255, 255, 255, 0.12);
-            --comment-bg: rgba(0, 0, 0, 0.45);
+            --comment-bg: rgba(0, 0, 0, 0.55);
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -30,12 +30,12 @@
             flex-direction: column;
             align-items: center; 
             overflow-x: hidden;
-            padding-bottom: 60px;
+            padding-bottom: 120px;
         }
 
         #bg-video {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; object-fit: cover; filter: brightness(0.65);
+            z-index: -1; object-fit: cover; filter: brightness(0.55);
         }
 
         .profile-trigger {
@@ -50,11 +50,11 @@
         .profile-trigger i { color: #000; font-size: 20px; }
 
         .container {
-            width: 100%; max-width: 480px; padding: 60px 20px 100px 20px;
+            width: 100%; max-width: 480px; padding: 50px 20px 100px 20px;
             animation: fadeIn 0.8s ease-out;
         }
 
-        .header-section { text-align: center; margin-bottom: 30px; }
+        .header-section { text-align: center; margin-bottom: 20px; }
         .logo-crown { 
             font-size: 50px; margin-bottom: 10px; 
             filter: drop-shadow(0 0 15px var(--gold));
@@ -64,66 +64,110 @@
         h1 { margin: 5px 0; font-size: 24px; color: var(--gold); }
         .subtitle { opacity: 0.6; font-size: 14px; letter-spacing: 0.5px; }
 
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 25px 0; }
+        /* العد التنازلي */
+        .timer-box {
+            background: rgba(226, 176, 74, 0.15); border: 1px dashed var(--gold);
+            border-radius: 16px; padding: 12px; text-align: center; margin: 15px 0;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        }
+        .timer-title { font-size: 12px; color: #fff; opacity: 0.8; margin-bottom: 5px; }
+        .timer-digits { font-size: 20px; font-weight: bold; color: var(--gold); letter-spacing: 2px; }
+
+        /* الشبكة الإحصائية */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
         .stat-card {
             background: var(--glass); border: 1px solid var(--glass-border);
             padding: 20px 15px; border-radius: 24px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); text-align: center;
         }
         .stat-card i { color: var(--gold); font-size: 22px; margin-bottom: 8px; display: block; }
-        
-        .stat-num { 
-            font-size: 22px; font-weight: 800; display: block; margin-bottom: 4px; 
-            color: var(--gold) !important; 
-        }
+        .stat-num { font-size: 22px; font-weight: 800; display: block; margin-bottom: 4px; color: var(--gold) !important; }
         .stat-label { font-size: 11px; text-transform: uppercase; opacity: 0.5; color: white; }
 
-        .btn-main {
-            background: var(--gold-gradient); color: #000; font-weight: bold; padding: 18px;
-            border-radius: 18px; text-decoration: none; text-align: center; display: block;
-            font-size: 18px; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); border: none; cursor: pointer;
-            width: 100%;
+        /* قسم الخدمات الحالي */
+        .services-section { margin-top: 40px; }
+        .section-title { text-align: center; color: var(--gold); font-size: 20px; margin-bottom: 15px; }
+        
+        .tabs-container { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+        .tab-btn {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            color: white; padding: 10px 18px; border-radius: 14px; font-size: 14px;
+            cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px);
+        }
+        .tab-btn.active { background: var(--gold-gradient); color: #000; font-weight: bold; border-color: var(--gold); }
+
+        .service-card {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 20px; padding: 16px; margin-bottom: 15px;
+            display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            transition: 0.3s; cursor: pointer;
+        }
+        .service-card.selected { border-color: var(--gold); box-shadow: 0 0 15px rgba(226, 176, 74, 0.3); }
+        .service-info { display: flex; flex-direction: column; gap: 4px; }
+        .service-name { font-size: 15px; font-weight: bold; color: #fff; }
+        .service-qty { font-size: 12px; opacity: 0.7; color: #ddd; }
+        .service-badge { font-size: 10px; background: rgba(226, 176, 74, 0.2); color: var(--gold); padding: 3px 8px; border-radius: 8px; width: fit-content; margin-top: 2px; }
+        .service-price { font-size: 16px; font-weight: bold; color: var(--gold); text-align: left; }
+
+        /* الزر العائم للتواصل */
+        .floating-order-btn {
+            position: fixed; bottom: 45px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 440px; z-index: 3000;
+            background: var(--gold-gradient); color: #000; font-weight: bold; padding: 16px;
+            border-radius: 20px; text-decoration: none; text-align: center;
+            font-size: 17px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
         }
 
-        .comments-container { margin-top: 60px; width: 100%; }
+        /* التعليقات */
+        .comments-container { margin-top: 50px; width: 100%; }
         .comment-card {
             background: var(--comment-bg); border-radius: 25px;
-            padding: 50px 20px 20px; position: relative;
-            text-align: center; margin-bottom: 60px; border: 1px solid var(--glass-border);
+            padding: 40px 20px 20px; position: relative;
+            text-align: center; margin-bottom: 50px; border: 1px solid var(--glass-border);
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
         .comment-avatar {
-            width: 80px; height: 80px; border-radius: 50%;
+            width: 70px; height: 70px; border-radius: 50%;
             border: 3px solid var(--gold); position: absolute;
-            top: -40px; left: 50%; transform: translateX(-50%);
+            top: -35px; left: 50%; transform: translateX(-50%);
             background: #222; object-fit: cover;
         }
-        .comment-name { font-weight: bold; font-size: 18px; margin-bottom: 5px; color: white; }
-        .stars-display { color: #f1c40f; margin-bottom: 15px; font-size: 14px; }
-        .comment-text { font-size: 14px; opacity: 0.8; line-height: 1.6; color: #ccc; }
+        .comment-name { font-weight: bold; font-size: 16px; margin-bottom: 5px; color: white; }
+        .stars-display { color: #f1c40f; margin-bottom: 10px; font-size: 13px; }
+        .comment-text { font-size: 13px; opacity: 0.8; line-height: 1.5; color: #ccc; }
 
         .add-comment-box {
             background: var(--glass); padding: 20px; border-radius: 20px;
-            border: 1px solid var(--gold); margin-bottom: 40px;
+            border: 1px solid var(--gold); margin-bottom: 30px;
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
         .add-comment-box textarea {
-            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
+            width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
             border-radius: 10px; color: white; padding: 10px; resize: none; margin-bottom: 10px;
         }
         .star-rating-input { display: flex; flex-direction: row-reverse; justify-content: center; gap: 5px; margin-bottom: 10px; }
         .star-rating-input i { font-size: 20px; cursor: pointer; color: #444; }
         .star-rating-input i.active { color: var(--gold); }
 
+        /* شريط الأخبار */
         .news-bar { 
             position: fixed; bottom: 0; left: 0; width: 100%; 
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid var(--gold); 
-            padding: 10px 0; z-index: 2000; 
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); border-top: 1px solid var(--gold); 
+            padding: 8px 0; z-index: 2000; 
         }
         .marquee { overflow: hidden; white-space: nowrap; width: 100%; }
-        .marquee-content { 
-            display: inline-block; animation: marquee 20s linear infinite; 
-            color: var(--gold); font-size: 13px; font-weight: bold;
+        .marquee-content { display: inline-block; animation: marquee 20s linear infinite; color: var(--gold); font-size: 12px; font-weight: bold; }
+
+        /* التنبيهات الحية */
+        .toast-notification {
+            position: fixed; top: 80px; right: 20px; z-index: 4000;
+            background: rgba(0, 0, 0, 0.8); border: 1px solid var(--gold);
+            padding: 10px 15px; border-radius: 12px; font-size: 12px; color: white;
+            backdrop-filter: blur(10px); transform: translateX(150%); transition: 0.5s ease-in-out;
+            display: flex; align-items: center; gap: 8px;
         }
+        .toast-notification.show { transform: translateX(0); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
@@ -140,7 +184,12 @@
         <source src="Music_bot.mp3.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="musicControl" onclick="toggleMusic()" style="position: fixed; bottom: 80px; left: 20px; z-index: 9999; background: rgba(0,0,0,0.7); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid gold; box-shadow: 0 0 10px rgba(255,215,0,0.3);">
+    <div id="toast" class="toast-notification">
+        <i class="fa-solid fa-circle-check" style="color: var(--gold);"></i>
+        <span id="toastMsg">تم طلب خدمة جديدة من بغداد 🔥</span>
+    </div>
+
+    <div id="musicControl" onclick="toggleMusic()" style="position: fixed; bottom: 105px; left: 20px; z-index: 9999; background: rgba(0,0,0,0.7); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid gold; box-shadow: 0 0 10px rgba(255,215,0,0.3);">
         <span id="musicIcon" style="font-size: 20px;">🔇</span>
     </div>
 
@@ -153,6 +202,11 @@
             <p class="subtitle">PREMIUM ACCOUNT SERVICES</p>
         </div>
 
+        <div class="timer-box">
+            <div class="timer-title">⏰ ينتهي خصم العرض الخاص خلال:</div>
+            <div class="timer-digits" id="countdown">02:45:12</div>
+        </div>
+
         <div class="stats-grid">
             <div class="stat-card"><i class="fa-solid fa-eye"></i><span class="stat-num" data-target="5">0</span><span class="stat-label">مليون مشاهدة</span></div>
             <div class="stat-card"><i class="fa-solid fa-heart"></i><span class="stat-num" data-target="2.8">0</span><span class="stat-label">مليون تفاعل</span></div>
@@ -160,12 +214,21 @@
             <div class="stat-card"><i class="fa-solid fa-bolt"></i><span class="stat-num" data-target="479">0</span><span class="stat-label">قناة</span></div>
         </div>
 
-        <div class="action-buttons">
-            <a href="https://t.me/t3tbbot" class="btn-main"> ↗️استعجل وارفع تفاعل قناتك <i class="fa-solid fa-paper-plane"></i></a>
+        <!-- قائمة الخدمات الحالية -->
+        <div class="services-section">
+            <h3 class="section-title">📊 قائمة الخدمات الحالية</h3>
+            
+            <div class="tabs-container">
+                <button class="tab-btn active" onclick="filterServices('telegram', this)">تليجرام ✈️</button>
+                <button class="tab-btn" onclick="filterServices('instagram', this)">إنستغرام 📸</button>
+            </div>
+
+            <div id="servicesList"></div>
         </div>
 
+        <!-- قسم آراء المشتركين -->
         <div class="comments-container">
-            <h3 style="text-align: center; color: var(--gold); margin-bottom: 40px;">آراء المشتركين ⭐</h3>
+            <h3 style="text-align: center; color: var(--gold); margin-bottom: 30px;">آراء المشتركين ⭐</h3>
 
             <div class="add-comment-box">
                 <div class="star-rating-input" id="starInput">
@@ -174,15 +237,21 @@
                     <i class="fa-solid fa-star" data-v="1"></i>
                 </div>
                 <textarea id="userMsg" rows="2" placeholder="اكتب تجربتك هنا..."></textarea>
-                <button onclick="sendReview()" class="btn-main" style="padding: 10px; font-size: 14px;"> 🔥نشر التعليق</button>
+                <button onclick="sendReview()" style="background: var(--gold-gradient); color: #000; font-weight: bold; border-radius: 12px; padding: 10px; width: 100%; border: none; cursor: pointer;">🔥 نشر التعليق</button>
             </div>
 
             <div id="listComments"></div>
         </div>
     </div>
 
+    <!-- الزر العائم للطلب والطلب المباشر -->
+    <a id="floatingOrderBtn" href="https://t.me/E2E12" target="_blank" class="floating-order-btn">
+        <i class="fa-brands fa-telegram" style="font-size: 22px;"></i>
+        <span id="floatingBtnText">تواصل للطلب مباشرة عبر تليجرام</span>
+    </a>
+
     <div class="news-bar">
-        <div class="marquee"><div class="marquee-content">❤️‍🔥 عرض خاص: خصم 31% • ✅ تم تحديث الخدمات المجانيه • خدماتنا المجانية والبسيطة المتاحة لكم .. </div></div>
+        <div class="marquee"><div class="marquee-content">❤️‍🔥 عرض خاص: خصم 31% • ✅ تم تحديث قائمة خدمات التليجرام والإنستغرام • تنفيذ فوري وضمان شامل .. </div></div>
     </div>
 
     <script>
@@ -193,6 +262,85 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
         const user = tg.initDataUnsafe?.user || { first_name: "مشترك مميز", photo_url: "" };
+
+        // مصفوفة الخدمات
+        const servicesData = [
+            { cat: 'telegram', name: 'أعضاء قنوات ومجموعات', qty: '1,000 عضو حقيقي', price: '4,000 د.ع', badge: '🔥 الأكثر طلباً' },
+            { cat: 'telegram', name: 'مشاهدات منشورات القناة', qty: '10,000 مشاهدة', price: '2,500 د.ع', badge: '⚡ تنفيذ فوري' },
+            { cat: 'telegram', name: 'التفاعلات والريأكشنات', qty: '1,000 تفاعل مشكل', price: '3,000 د.ع', badge: '💎 ممتاز' },
+            { cat: 'instagram', name: 'متابعين إنستغرام VIP', qty: '1,000 متابع', price: '5,000 د.ع', badge: '🔥 الأكثر طلباً' },
+            { cat: 'instagram', name: 'لايكات ريلز ومنشورات', qty: '5,000 لايك', price: '3,000 د.ع', badge: '⚡ فوري' },
+            { cat: 'instagram', name: 'مشاهدات ريلز إكسبلور', qty: '20,000 مشاهدة', price: '3,500 د.ع', badge: '🚀 ترند' }
+        ];
+
+        let selectedService = null;
+
+        function renderServices(category) {
+            const listDiv = document.getElementById('servicesList');
+            listDiv.innerHTML = '';
+            
+            const filtered = servicesData.filter(s => s.cat === category);
+            filtered.forEach((s, idx) => {
+                listDiv.innerHTML += `
+                    <div class="service-card" onclick="selectService('${s.name}', '${s.price}', this)">
+                        <div class="service-info">
+                            <span class="service-name">${s.name}</span>
+                            <span class="service-qty"><i class="fa-solid fa-cube"></i> ${s.qty}</span>
+                            ${s.badge ? `<span class="service-badge">${s.badge}</span>` : ''}
+                        </div>
+                        <div class="service-price">${s.price}</div>
+                    </div>`;
+            });
+        }
+
+        function filterServices(category, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderServices(category);
+        }
+
+        function selectService(name, price, element) {
+            document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedService = { name, price };
+            
+            const btnText = document.getElementById('floatingBtnText');
+            btnText.innerText = `طلب (${name}) - ${price}`;
+            
+            const orderBtn = document.getElementById('floatingOrderBtn');
+            const msg = encodeURIComponent(`أهلاً قاسم 👋، أود طلب خدمة: ${name} بسعر ${price}`);
+            orderBtn.href = `https://t.me/E2E12?text=${msg}`;
+        }
+
+        // عداد تنازلي
+        function startTimer() {
+            let duration = 3 * 3600 + 45 * 60 + 12;
+            setInterval(() => {
+                let h = Math.floor(duration / 3600);
+                let m = Math.floor((duration % 3600) / 60);
+                let s = duration % 60;
+                document.getElementById('countdown').innerText = 
+                    `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                if (duration > 0) duration--;
+            }, 1000);
+        }
+
+        // إشعارات حية
+        const toastMsgs = [
+            "تم طلب 5,000 مشاهدة تليجرام الآن 🔥",
+            "عضو جديد اشترك في باقة إنستغرام VIP 💎",
+            "تم زيادة 1,000 مشترك لقناة تليجرام 🚀",
+            "طلب جديد من بغداد بقيمة 15,000 د.ع ⚡"
+        ];
+        function showToasts() {
+            setInterval(() => {
+                const toast = document.getElementById('toast');
+                const msg = document.getElementById('toastMsg');
+                msg.innerText = toastMsgs[Math.floor(Math.random() * toastMsgs.length)];
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3500);
+            }, 9000);
+        }
 
         function updateCounters() {
             const counters = document.querySelectorAll('.stat-num');
@@ -210,7 +358,6 @@
             });
         }
 
-        // الموسيقى
         const music = document.getElementById('bgMusic');
         const musicIcon = document.getElementById('musicIcon');
         let isPlaying = false;
@@ -223,12 +370,11 @@
                 music.volume = 0.5;
                 music.play().then(() => {
                     musicIcon.innerText = "🔊";
-                }).catch(e => alert("يجب الضغط على الشاشة أولاً لتشغيل الصوت"));
+                }).catch(e => alert("اضغط على الشاشة لتشغيل الصوت"));
             }
             isPlaying = !isPlaying;
         }
 
-        // نظام النجوم
         let userRating = 5;
         const starIcons = document.querySelectorAll('#starInput i');
         starIcons.forEach(s => {
@@ -263,30 +409,30 @@
             if (!msg) return;
 
             const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || "مستخدم مجهول";
-            const username = user.username ? `@${user.username}` : "هم فقير وهم بلا يوزر";
+            const username = user.username ? `@${user.username}` : "بلا يوزر";
             
             const { error } = await MySupabase.from('comments').insert([{
-                name: fullName,
-                photo: user.photo_url || "",
-                rating: userRating,
-                msg: msg
+                name: fullName, photo: user.photo_url || "", rating: userRating, msg: msg
             }]);
 
             if (!error) {
                 const botToken = "8772752122:AAFsvrKAiLDPIBUD_blDGWdFPCLrAhqn2TY";
                 const myId = "5581457665";
-                const alertText = `⭐ تقييم جديد (${userRating} نجوم)\n👤 اسم الحلو: ${fullName}\n🆔 وهذا يوزره: ${username}\n💬 تعليقه مثله: ${msg}`;
+                const alertText = `⭐ تقييم جديد (${userRating} نجوم)\n👤 الاسم: ${fullName}\n🆔 اليوزر: ${username}\n💬 التعليق: ${msg}`;
 
                 fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${myId}&text=${encodeURIComponent(alertText)}`);
 
                 document.getElementById('userMsg').value = '';
                 loadComments();
-                alert("تم النشر بنجاح! ❤️‍🔥🦾");
+                alert("تم النشر بنجاح! ❤️‍🔥");
             }
         }
 
         window.onload = () => {
             updateCounters();
+            renderServices('telegram');
+            startTimer();
+            showToasts();
             loadComments();
         };
     </script>
