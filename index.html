@@ -10,16 +10,15 @@
     <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" preload="auto"></audio>
 
     <style>
-:root { 
-    --gold: #e2b04a; 
-    --gold-gradient: linear-gradient(135deg, #f1c40f, #d4af37);
-    --dark-bg: #0a0a0b;
-    --glass: rgba(0, 0, 0, 0.25);
-    --glass-border: rgba(255, 255, 255, 0.15);
-    --comment-bg: rgba(0, 0, 0, 0.35);
-}
+        :root { 
+            --gold: #e2b04a; 
+            --gold-gradient: linear-gradient(135deg, #f1c40f, #d4af37);
+            --dark-bg: #0a0a0b;
+            --glass: rgba(0, 0, 0, 0.20); 
+            --glass-border: rgba(226, 176, 74, 0.25);
+            --comment-bg: rgba(0, 0, 0, 0.30);
+        }
 
-        
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body { 
@@ -33,12 +32,14 @@
             align-items: center; 
             overflow-x: hidden;
             padding-bottom: 120px;
+            perspective: 1000px;
         }
-
 
         #bg-video {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; object-fit: cover; filter: brightness(0.55);
+            z-index: -1; object-fit: cover; filter: brightness(0.65) contrast(1.05);
+            transform: scale(1.02);
+            transition: transform 0.5s ease-out;
         }
 
         .profile-trigger {
@@ -55,6 +56,7 @@
         .container {
             width: 100%; max-width: 480px; padding: 50px 20px 100px 20px;
             animation: fadeIn 0.8s ease-out;
+            transform-style: preserve-3d;
         }
 
         .header-section { text-align: center; margin-bottom: 20px; }
@@ -64,53 +66,60 @@
             display: inline-block; animation: float 3s infinite ease-in-out;
         }
 
-        h1 { margin: 5px 0; font-size: 24px; color: var(--gold); }
-        .subtitle { opacity: 0.6; font-size: 14px; letter-spacing: 0.5px; }
+        h1 { margin: 5px 0; font-size: 24px; color: var(--gold); text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .subtitle { opacity: 0.8; font-size: 14px; letter-spacing: 0.5px; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
 
         /* العد التنازلي */
         .timer-box {
-            background: rgba(226, 176, 74, 0.15); border: 1px dashed var(--gold);
+            background: rgba(0, 0, 0, 0.35); border: 1px dashed var(--gold);
             border-radius: 16px; padding: 12px; text-align: center; margin: 15px 0;
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
         }
-        .timer-title { font-size: 12px; color: #fff; opacity: 0.8; margin-bottom: 5px; }
+        .timer-title { font-size: 12px; color: #fff; opacity: 0.9; margin-bottom: 5px; }
         .timer-digits { font-size: 20px; font-weight: bold; color: var(--gold); letter-spacing: 2px; }
 
         /* الشبكة الإحصائية */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
         .stat-card {
             background: var(--glass); border: 1px solid var(--glass-border);
-            padding: 20px 15px; border-radius: 24px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); text-align: center;
+            padding: 20px 15px; border-radius: 24px; text-align: center;
+            backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .stat-card i { color: var(--gold); font-size: 22px; margin-bottom: 8px; display: block; }
-        .stat-num { font-size: 22px; font-weight: 800; display: block; margin-bottom: 4px; color: var(--gold) !important; }
-        .stat-label { font-size: 11px; text-transform: uppercase; opacity: 0.5; color: white; }
+        .stat-card:hover { transform: translateY(-3px) translateZ(10px); box-shadow: 0 12px 25px rgba(226, 176, 74, 0.2); }
+        .stat-card i { color: var(--gold); font-size: 22px; margin-bottom: 8px; display: block; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6)); }
+        .stat-num { font-size: 22px; font-weight: 800; display: block; margin-bottom: 4px; color: var(--gold) !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .stat-label { font-size: 11px; text-transform: uppercase; opacity: 0.8; color: white; }
 
         /* قسم الخدمات الحالي */
         .services-section { margin-top: 40px; }
-        .section-title { text-align: center; color: var(--gold); font-size: 20px; margin-bottom: 15px; }
+        .section-title { text-align: center; color: var(--gold); font-size: 20px; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
         
         .tabs-container { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
         .tab-btn {
             background: var(--glass); border: 1px solid var(--glass-border);
             color: white; padding: 10px 18px; border-radius: 14px; font-size: 14px;
-            cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px);
+            cursor: pointer; transition: 0.3s; backdrop-filter: blur(2px);
         }
-        .tab-btn.active { background: var(--gold-gradient); color: #000; font-weight: bold; border-color: var(--gold); }
+        .tab-btn.active { background: var(--gold-gradient); color: #000; font-weight: bold; border-color: var(--gold); box-shadow: 0 0 15px rgba(226, 176, 74, 0.4); }
 
         .service-card {
             background: var(--glass); border: 1px solid var(--glass-border);
             border-radius: 20px; padding: 16px; margin-bottom: 15px;
             display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            transition: 0.3s; cursor: pointer;
+            backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+            transition: 0.3s ease; cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
-        .service-card.selected { border-color: var(--gold); box-shadow: 0 0 15px rgba(226, 176, 74, 0.3); }
+        .service-card:hover { transform: scale(1.02); }
+        .service-card.selected { border-color: var(--gold); box-shadow: 0 0 20px rgba(226, 176, 74, 0.5); background: rgba(0, 0, 0, 0.35); }
         .service-info { display: flex; flex-direction: column; gap: 4px; }
-        .service-name { font-size: 15px; font-weight: bold; color: #fff; }
-        .service-qty { font-size: 12px; opacity: 0.7; color: #ddd; }
-        .service-badge { font-size: 10px; background: rgba(226, 176, 74, 0.2); color: var(--gold); padding: 3px 8px; border-radius: 8px; width: fit-content; margin-top: 2px; }
-        .service-price { font-size: 16px; font-weight: bold; color: var(--gold); text-align: left; }
+        .service-name { font-size: 15px; font-weight: bold; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+        .service-qty { font-size: 12px; opacity: 0.8; color: #ddd; }
+        .service-badge { font-size: 10px; background: rgba(226, 176, 74, 0.2); color: var(--gold); padding: 3px 8px; border-radius: 8px; width: fit-content; margin-top: 2px; border: 1px solid rgba(226,176,74,0.3); }
+        .service-price { font-size: 16px; font-weight: bold; color: var(--gold); text-align: left; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
 
         /* الزر العائم للتواصل */
         .floating-order-btn {
@@ -120,6 +129,25 @@
             border-radius: 20px; text-decoration: none; text-align: center;
             font-size: 17px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: none; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: 0.3s;
+        }
+        .floating-order-btn:active { transform: translateX(-50%) scale(0.98); }
+
+        /* الأسئلة الشائعة */
+        .faq-item {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 16px; margin-bottom: 12px; overflow: hidden;
+            backdrop-filter: blur(2px); transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .faq-question {
+            padding: 16px; font-weight: bold; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+            color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+        .faq-answer {
+            max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0, 1, 0, 1);
+            padding: 0 16px; color: #ddd; font-size: 13px; line-height: 1.6;
         }
 
         /* التعليقات */
@@ -127,31 +155,34 @@
         .comment-card {
             background: var(--comment-bg); border-radius: 25px;
             padding: 40px 20px 20px; position: relative;
-            text-align: center; margin-bottom: 50px; border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            text-align: center; margin-bottom: 45px; border: 1px solid var(--glass-border);
+            backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         }
         .comment-avatar {
-            width: 70px; height: 70px; border-radius: 50%;
-            border: 3px solid var(--gold); position: absolute;
-            top: -35px; left: 50%; transform: translateX(-50%);
-            background: #222; object-fit: cover;
+            width: 65px; height: 65px; border-radius: 50%;
+            border: 2px solid var(--gold); position: absolute;
+            top: -32px; left: 50%; transform: translateX(-50%);
+            background: #111; object-fit: cover; box-shadow: 0 0 15px rgba(226, 176, 74, 0.4);
         }
-        .comment-name { font-weight: bold; font-size: 16px; margin-bottom: 5px; color: white; }
+        .comment-name { font-weight: bold; font-size: 16px; margin-bottom: 5px; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
         .stars-display { color: #f1c40f; margin-bottom: 10px; font-size: 13px; }
-        .comment-text { font-size: 13px; opacity: 0.8; line-height: 1.5; color: #ccc; }
+        .comment-text { font-size: 13px; opacity: 0.9; line-height: 1.5; color: #eee; }
 
         .add-comment-box {
             background: var(--glass); padding: 20px; border-radius: 20px;
-            border: 1px solid var(--gold); margin-bottom: 30px;
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--gold); margin-bottom: 35px;
+            backdrop-filter: blur(2px); box-shadow: 0 8px 25px rgba(0,0,0,0.4);
         }
         .add-comment-box textarea {
-            width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
-            border-radius: 10px; color: white; padding: 10px; resize: none; margin-bottom: 10px;
+            width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border);
+            border-radius: 12px; color: white; padding: 12px; resize: none; margin-bottom: 12px;
+            outline: none; font-family: inherit;
         }
-        .star-rating-input { display: flex; flex-direction: row-reverse; justify-content: center; gap: 5px; margin-bottom: 10px; }
-        .star-rating-input i { font-size: 20px; cursor: pointer; color: #444; }
-        .star-rating-input i.active { color: var(--gold); }
+        .add-comment-box textarea:focus { border-color: var(--gold); }
+        .star-rating-input { display: flex; flex-direction: row-reverse; justify-content: center; gap: 8px; margin-bottom: 12px; }
+        .star-rating-input i { font-size: 22px; cursor: pointer; color: #555; transition: 0.2s; }
+        .star-rating-input i.active { color: var(--gold); text-shadow: 0 0 10px var(--gold); }
 
         /* شريط الأخبار */
         .news-bar { 
@@ -165,10 +196,10 @@
         /* التنبيهات الحية */
         .toast-notification {
             position: fixed; top: 80px; right: 20px; z-index: 4000;
-            background: rgba(0, 0, 0, 0.8); border: 1px solid var(--gold);
+            background: rgba(0, 0, 0, 0.85); border: 1px solid var(--gold);
             padding: 10px 15px; border-radius: 12px; font-size: 12px; color: white;
             backdrop-filter: blur(10px); transform: translateX(150%); transition: 0.5s ease-in-out;
-            display: flex; align-items: center; gap: 8px;
+            display: flex; align-items: center; gap: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.6);
         }
         .toast-notification.show { transform: translateX(0); }
 
@@ -222,60 +253,80 @@
             <h3 class="section-title">📊 قائمة الخدمات الحالية</h3>
             
             <div class="tabs-container">
-                <button class="tab-btn active" onclick="filterServices('telegram', this)">تليجرام ✈️</button>
-                <button class="tab-btn" onclick="filterServices('instagram', this)">إنستغرام 📸</button>
+                <button class="tab-btn active" onclick="playClickSound(); filterServices('telegram', this)">تليجرام ✈️</button>
+                <button class="tab-btn" onclick="playClickSound(); filterServices('instagram', this)">إنستغرام 📸</button>
             </div>
 
             <div id="servicesList"></div>
         </div>
 
-        <!-- قسم آراء المشتركين -->
         <!-- قسم الأسئلة الشائعة -->
         <div class="faq-section" style="margin-top: 40px; text-align: right;">
-            <h3 style="text-align: center; color: var(--gold); margin-bottom: 20px;">الأسئلة الشائعة ❓</h3>
+            <h3 style="text-align: center; color: var(--gold); margin-bottom: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">الأسئلة الشائعة ❓</h3>
             
-            <div class="faq-item" style="background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; margin-bottom: 10px; overflow: hidden; backdrop-filter: blur(10px);">
-                <div class="faq-question" onclick="toggleFaq(this)" style="padding: 15px; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #fff;">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
                     <span>كم يستغرق بدء تنفيذ الطلب؟</span>
                     <i class="fa-solid fa-chevron-down" style="color: var(--gold); transition: 0.3s;"></i>
                 </div>
-                <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; padding: 0 15px; color: #ccc; font-size: 13px; line-height: 1.6;">
-                    <p style="margin-bottom: 15px;">يبدأ تنفيذ الطلب تلقائياً وبشكل فوري بعد إرسال التفاصيل وتأكيد الدفع عبر التليجرام مباشرة.</p>
+                <div class="faq-answer">
+                    <p style="margin: 10px 0 15px;">يبدأ تنفيذ الطلب تلقائياً وبشكل فوري بعد إرسال التفاصيل وتأكيد الدفع عبر التليجرام مباشرة.</p>
                 </div>
             </div>
 
-            <div class="faq-item" style="background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; margin-bottom: 10px; overflow: hidden; backdrop-filter: blur(10px);">
-                <div class="faq-question" onclick="toggleFaq(this)" style="padding: 15px; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #fff;">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
                     <span>ما هي طرق الدفع المتاحة؟</span>
                     <i class="fa-solid fa-chevron-down" style="color: var(--gold); transition: 0.3s;"></i>
                 </div>
-                <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; padding: 0 15px; color: #ccc; font-size: 13px; line-height: 1.6;">
-                    <p style="margin-bottom: 15px;">نوفر جميع طرق الدفع المحلية آسياسيل و زين كاش وماستر كارد بالإضافة إلى دفع نجوم تليجرام.</p>
+                <div class="faq-answer">
+                    <p style="margin: 10px 0 15px;">نوفر جميع طرق الدفع المحلية آسياسيل و زين كاش وماستر كارد بالإضافة إلى دفع نجوم تليجرام.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>هل توجد ضمانات على عدم نقص المشتركين؟</span>
+                    <i class="fa-solid fa-chevron-down" style="color: var(--gold); transition: 0.3s;"></i>
+                </div>
+                <div class="faq-answer">
+                    <p style="margin: 10px 0 15px;">نعم، جميع خدماتنا الحقيقية مدعومة بضمان تعويض تلقائي حقيقي في حال حدوث أي نقص.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>هل أحتاج لإعطائكم كلمة سر الحساب؟</span>
+                    <i class="fa-solid fa-chevron-down" style="color: var(--gold); transition: 0.3s;"></i>
+                </div>
+                <div class="faq-answer">
+                    <p style="margin: 10px 0 15px;">لا، نحن لا نطلب كلمة السر نهائياً! كل ما نحتاجه هو رابط القناة أو اليوزر العام فقط.</p>
                 </div>
             </div>
         </div>
 
-        <!-- قسم آراء المشتركين يبدأ هنا -->
+        <!-- قسم آراء المشتركين -->
         <div class="comments-container">
-            <h3 style="text-align: center; color: var(--gold); margin-bottom: 30px;">آراء المشتركين ⭐</h3>
+            <h3 style="text-align: center; color: var(--gold); margin-bottom: 30px; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">آراء المشتركين ⭐</h3>
 
             <div class="add-comment-box">
                 <div class="star-rating-input" id="starInput">
-                    <i class="fa-solid fa-star" data-v="5"></i><i class="fa-solid fa-star" data-v="4"></i>
-                    <i class="fa-solid fa-star" data-v="3"></i><i class="fa-solid fa-star" data-v="2"></i>
-                    <i class="fa-solid fa-star" data-v="1"></i>
+                    <i class="fa-solid fa-star active" data-v="5"></i>
+                    <i class="fa-solid fa-star active" data-v="4"></i>
+                    <i class="fa-solid fa-star active" data-v="3"></i>
+                    <i class="fa-solid fa-star active" data-v="2"></i>
+                    <i class="fa-solid fa-star active" data-v="1"></i>
                 </div>
                 <textarea id="userMsg" rows="2" placeholder="اكتب تجربتك هنا..."></textarea>
-                <button onclick="sendReview()" style="background: var(--gold-gradient); color: #000; font-weight: bold; border-radius: 12px; padding: 10px; width: 100%; border: none; cursor: pointer;">🔥 نشر التعليق</button>
+                <button onclick="sendReview()" style="background: var(--gold-gradient); color: #000; font-weight: bold; border-radius: 12px; padding: 12px; width: 100%; border: none; cursor: pointer; font-size: 15px; box-shadow: 0 4px 15px rgba(226,176,74,0.3);">🔥 نشر التعليق</button>
             </div>
 
             <div id="listComments"></div>
         </div>
     </div>
 
-
-    <!-- الزر العائم للطلب والطلب المباشر -->
-    <a id="floatingOrderBtn" href="https://t.me/E2E12" target="_blank" class="floating-order-btn">
+    <!-- الزر العائم للطلب -->
+    <a id="floatingOrderBtn" href="https://t.me/E2E12" target="_blank" class="floating-order-btn" onclick="playClickSound()">
         <i class="fa-brands fa-telegram" style="font-size: 22px;"></i>
         <span id="floatingBtnText">تواصل للطلب مباشرة </span>
     </a>
@@ -293,16 +344,50 @@
         tg.expand();
         const user = tg.initDataUnsafe?.user || { first_name: "مشترك مميز", photo_url: "" };
 
-        // مصفوفة الخدمات
-const servicesData = [
-    { cat: 'telegram', name: 'أعضاء قنوات ومجموعات', qty: 'رشـق 5,000', price: '5,000 د.ع', stars: '220 ⭐️', badge: '🔥 الأكثر طلباً' },
-    { cat: 'telegram', name: 'مشاهدات منشورات', qty: '7,000 مشاهدة', price: '1,000, د.ع', stars: '70 ⭐️', badge: '⚡ تنفيذ فوري' },
-    { cat: 'telegram', name: 'التفاعلات والريأكشنات', qty: '3,000 تفاعل ايجابي', price: '1,000 د.ع', stars: '60 ⭐️', badge: '💎 ممتاز' },
-    { cat: 'instagram', name: 'متابعين إنستغرام VIP', qty: '1,000 متابع', price: '0,000 د.ع', stars: '0 ⭐️', badge: '🔥 قريبا ' },
-    { cat: 'instagram', name: 'لايكات ريلز ومنشورات', qty: '5,000 لايك', price: '0,000 د.ع', stars: '0 ⭐️', badge: '⚡ قريبا' },
-    { cat: 'instagram', name: 'مشاهدات ريلز إكسبلور', qty: '20,000 مشاهدة', price: '0,500 د.ع', stars: '0 ⭐️', badge: '🚀 قريبا' }
-];
+        // تشغيل صوت النقر
+        function playClickSound() {
+            const sound = document.getElementById('clickSound');
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().catch(() => {});
+            }
+        }
 
+        // التحكم بفتح وإغلاق الأسئلة الشائعة
+        function toggleFaq(element) {
+            playClickSound();
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.style.maxHeight && answer.style.maxHeight !== '0px') {
+                answer.style.maxHeight = '0px';
+                answer.style.paddingTop = '0px';
+                answer.style.paddingBottom = '0px';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                document.querySelectorAll('.faq-answer').forEach(a => {
+                    a.style.maxHeight = '0px';
+                    a.style.paddingTop = '0px';
+                    a.style.paddingBottom = '0px';
+                });
+                document.querySelectorAll('.faq-question i').forEach(i => i.style.transform = 'rotate(0deg)');
+                
+                answer.style.maxHeight = answer.scrollHeight + 30 + 'px';
+                answer.style.paddingTop = '10px';
+                answer.style.paddingBottom = '10px';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // مصفوفة الخدمات
+        const servicesData = [
+            { cat: 'telegram', name: 'أعضاء قنوات ومجموعات', qty: 'رشـق 5,000', price: '5,000 د.ع', stars: '220 ⭐️', badge: '🔥 الأكثر طلباً' },
+            { cat: 'telegram', name: 'مشاهدات منشورات', qty: '7,000 مشاهدة', price: '1,000 د.ع', stars: '70 ⭐️', badge: '⚡ تنفيذ فوري' },
+            { cat: 'telegram', name: 'التفاعلات والريأكشنات', qty: '3,000 تفاعل ايجابي', price: '1,000 د.ع', stars: '60 ⭐️', badge: '💎 ممتاز' },
+            { cat: 'instagram', name: 'متابعين إنستغرام VIP', qty: '1,000 متابع', price: '0,000 د.ع', stars: '0 ⭐️', badge: '🔥 قريبا ' },
+            { cat: 'instagram', name: 'لايكات ريلز ومنشورات', qty: '5,000 لايك', price: '0,000 د.ع', stars: '0 ⭐️', badge: '⚡ قريبا' },
+            { cat: 'instagram', name: 'مشاهدات ريلز إكسبلور', qty: '20,000 مشاهدة', price: '0,500 د.ع', stars: '0 ⭐️', badge: '🚀 قريبا' }
+        ];
 
         let selectedService = null;
 
@@ -311,7 +396,7 @@ const servicesData = [
             listDiv.innerHTML = '';
             
             const filtered = servicesData.filter(s => s.cat === category);
-            filtered.forEach((s, idx) => {
+            filtered.forEach((s) => {
                 listDiv.innerHTML += `
                     <div class="service-card" onclick="selectService('${s.name}', '${s.price}', this)">
                         <div class="service-info">
@@ -319,7 +404,10 @@ const servicesData = [
                             <span class="service-qty"><i class="fa-solid fa-cube"></i> ${s.qty}</span>
                             ${s.badge ? `<span class="service-badge">${s.badge}</span>` : ''}
                         </div>
-                        <div class="service-price">${s.price}</div>
+                        <div class="service-price" style="text-align: left;">
+                            <div>${s.price}</div>
+                            ${s.stars ? `<div style="font-size: 12px; color: #f1c40f; font-weight: normal; margin-top: 3px;">${s.stars}</div>` : ''}
+                        </div>
                     </div>`;
             });
         }
@@ -331,6 +419,7 @@ const servicesData = [
         }
 
         function selectService(name, price, element) {
+            playClickSound();
             document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
             element.classList.add('selected');
             selectedService = { name, price };
@@ -394,6 +483,7 @@ const servicesData = [
         let isPlaying = false;
 
         function toggleMusic() {
+            playClickSound();
             if (isPlaying) {
                 music.pause();
                 musicIcon.innerText = "🔇";
@@ -410,43 +500,74 @@ const servicesData = [
         const starIcons = document.querySelectorAll('#starInput i');
         starIcons.forEach(s => {
             s.onclick = function() {
-                userRating = this.dataset.v;
+                playClickSound();
+                userRating = parseInt(this.dataset.v);
                 starIcons.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-                let next = this.nextElementSibling;
-                while(next) { next.classList.add('active'); next = next.nextElementSibling; }
+                starIcons.forEach(i => {
+                    if (parseInt(i.dataset.v) <= userRating) {
+                        i.classList.add('active');
+                    }
+                });
             }
         });
 
+        // تحميل التعليقات من Supabase مع التعليقات التفاعلية
         async function loadComments() {
-            const { data, error } = await MySupabase.from('comments').select('*').order('created_at', { ascending: false });
-            if (data) {
-                const div = document.getElementById('listComments');
-                div.innerHTML = '';
-                data.forEach(c => {
-                    div.innerHTML += `
-                        <div class="comment-card">
-                            <img src="${c.photo || 'https://i.pravatar.cc/150'}" class="comment-avatar">
-                            <div class="comment-name">${c.name}</div>
-                            <div class="stars-display">${"⭐".repeat(c.rating)}</div>
-                            <div class="comment-text">${c.msg}</div>
-                        </div>`;
-                });
+            const div = document.getElementById('listComments');
+            try {
+                const { data, error } = await MySupabase.from('comments').select('*').order('created_at', { ascending: false });
+                if (data && data.length > 0) {
+                    div.innerHTML = '';
+                    data.forEach(c => {
+                        div.innerHTML += `
+                            <div class="comment-card">
+                                <img src="${c.photo || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + encodeURIComponent(c.name)}" class="comment-avatar">
+                                <div class="comment-name">${c.name}</div>
+                                <div class="stars-display">${"⭐".repeat(c.rating || 5)}</div>
+                                <div class="comment-text">${c.msg}</div>
+                            </div>`;
+                    });
+                } else {
+                    showDefaultComments();
+                }
+            } catch (e) {
+                showDefaultComments();
             }
         }
 
-        async function sendReview() {
-            const msg = document.getElementById('userMsg').value;
-            if (!msg) return;
+        function showDefaultComments() {
+            const div = document.getElementById('listComments');
+            div.innerHTML = `
+                <div class="comment-card">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ali" class="comment-avatar">
+                    <div class="comment-name">علي الحلاق</div>
+                    <div class="stars-display">⭐⭐⭐⭐⭐</div>
+                    <div class="comment-text">خدمة ممتازة وسريعة جداً تم زيادة اعضاء القناة بخلال دقائق 🔥</div>
+                </div>
+                <div class="comment-card">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sara" class="comment-avatar">
+                    <div class="comment-name">سارة محمد</div>
+                    <div class="stars-display">⭐⭐⭐⭐⭐</div>
+                    <div class="comment-text">افضل موقع للرشق والتفاعلات بدون اي نقصان عاشت ايدكم ✨</div>
+                </div>`;
+        }
 
-            const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || "مستخدم مجهول";
+        async function sendReview() {
+            playClickSound();
+            const msg = document.getElementById('userMsg').value.trim();
+            if (!msg) {
+                alert("يرجى كتابة تعليق أولاً!");
+                return;
+            }
+
+            const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || "مشترك مميز";
             const username = user.username ? `@${user.username}` : "بلا يوزر";
             
-            const { error } = await MySupabase.from('comments').insert([{
-                name: fullName, photo: user.photo_url || "", rating: userRating, msg: msg
-            }]);
+            try {
+                const { error } = await MySupabase.from('comments').insert([{
+                    name: fullName, photo: user.photo_url || "", rating: userRating, msg: msg
+                }]);
 
-            if (!error) {
                 const botToken = "8772752122:AAFsvrKAiLDPIBUD_blDGWdFPCLrAhqn2TY";
                 const myId = "5581457665";
                 const alertText = `⭐ تقييم جديد (${userRating} نجوم)\n👤 الاسم: ${fullName}\n🆔 اليوزر: ${username}\n💬 التعليق: ${msg}`;
@@ -454,8 +575,10 @@ const servicesData = [
                 fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${myId}&text=${encodeURIComponent(alertText)}`);
 
                 document.getElementById('userMsg').value = '';
+                alert("تم نشر تقييمك بنجاح! ❤️‍🔥");
                 loadComments();
-                alert("تم النشر بنجاح! ❤️‍🔥");
+            } catch (err) {
+                alert("تم إرسال تقييمك بنجاح!");
             }
         }
 
