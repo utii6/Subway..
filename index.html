@@ -7,16 +7,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
+    <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" preload="auto"></audio>
+
     <style>
-        :root { 
-            --gold: #e2b04a; 
-            --gold-gradient: linear-gradient(135deg, #f1c40f, #d4af37);
-            --dark-bg: #0a0a0b;
-            --glass: rgba(0, 0, 0, 0.45);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --comment-bg: rgba(0, 0, 0, 0.55);
-        }
+:root { 
+    --gold: #e2b04a; 
+    --gold-gradient: linear-gradient(135deg, #f1c40f, #d4af37);
+    --dark-bg: #0a0a0b;
+    --glass: rgba(0, 0, 0, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --comment-bg: rgba(0, 0, 0, 0.35);
+}
+
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -32,6 +34,7 @@
             overflow-x: hidden;
             padding-bottom: 120px;
         }
+
 
         #bg-video {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -186,7 +189,7 @@
 
     <div id="toast" class="toast-notification">
         <i class="fa-solid fa-circle-check" style="color: var(--gold);"></i>
-        <span id="toastMsg">تم طلب خدمة جديدة من بغداد 🔥</span>
+        <span id="toastMsg">تم طلب خدمة جديدة من şǎřǎ 🔥</span>
     </div>
 
     <div id="musicControl" onclick="toggleMusic()" style="position: fixed; bottom: 105px; left: 20px; z-index: 9999; background: rgba(0,0,0,0.7); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid gold; box-shadow: 0 0 10px rgba(255,215,0,0.3);">
@@ -198,7 +201,7 @@
     <div class="container">
         <div class="header-section">
             <div class="logo-crown">💎👑</div>
-            <h1> قاسـم </h1>
+            <h1> بعض العروض </h1>
             <p class="subtitle">PREMIUM ACCOUNT SERVICES</p>
         </div>
 
@@ -227,6 +230,32 @@
         </div>
 
         <!-- قسم آراء المشتركين -->
+        <!-- قسم الأسئلة الشائعة -->
+        <div class="faq-section" style="margin-top: 40px; text-align: right;">
+            <h3 style="text-align: center; color: var(--gold); margin-bottom: 20px;">الأسئلة الشائعة ❓</h3>
+            
+            <div class="faq-item" style="background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; margin-bottom: 10px; overflow: hidden; backdrop-filter: blur(10px);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="padding: 15px; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #fff;">
+                    <span>كم يستغرق بدء تنفيذ الطلب؟</span>
+                    <i class="fa-solid fa-chevron-down" style="color: var(--gold); transition: 0.3s;"></i>
+                </div>
+                <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; padding: 0 15px; color: #ccc; font-size: 13px; line-height: 1.6;">
+                    <p style="margin-bottom: 15px;">يبدأ تنفيذ الطلب تلقائياً وبشكل فوري بعد إرسال التفاصيل وتأكيد الدفع عبر التليجرام مباشرة.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" style="background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px; margin-bottom: 10px; overflow: hidden; backdrop-filter: blur(10px);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="padding: 15px; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #fff;">
+                    <span>ما هي طرق الدفع المتاحة؟</span>
+                    <i class="fa-solid fa-chevron-down" style="color: var(--gold); transition: 0.3s;"></i>
+                </div>
+                <div class="faq-answer" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; padding: 0 15px; color: #ccc; font-size: 13px; line-height: 1.6;">
+                    <p style="margin-bottom: 15px;">نوفر جميع طرق الدفع المحلية آسياسيل و زين كاش وماستر كارد بالإضافة إلى دفع نجوم تليجرام.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم آراء المشتركين يبدأ هنا -->
         <div class="comments-container">
             <h3 style="text-align: center; color: var(--gold); margin-bottom: 30px;">آراء المشتركين ⭐</h3>
 
@@ -244,10 +273,11 @@
         </div>
     </div>
 
+
     <!-- الزر العائم للطلب والطلب المباشر -->
     <a id="floatingOrderBtn" href="https://t.me/E2E12" target="_blank" class="floating-order-btn">
         <i class="fa-brands fa-telegram" style="font-size: 22px;"></i>
-        <span id="floatingBtnText">تواصل للطلب مباشرة عبر تليجرام</span>
+        <span id="floatingBtnText">تواصل للطلب مباشرة </span>
     </a>
 
     <div class="news-bar">
@@ -264,14 +294,15 @@
         const user = tg.initDataUnsafe?.user || { first_name: "مشترك مميز", photo_url: "" };
 
         // مصفوفة الخدمات
-        const servicesData = [
-            { cat: 'telegram', name: 'أعضاء قنوات ومجموعات', qty: '1,000 عضو حقيقي', price: '4,000 د.ع', badge: '🔥 الأكثر طلباً' },
-            { cat: 'telegram', name: 'مشاهدات منشورات القناة', qty: '10,000 مشاهدة', price: '2,500 د.ع', badge: '⚡ تنفيذ فوري' },
-            { cat: 'telegram', name: 'التفاعلات والريأكشنات', qty: '1,000 تفاعل مشكل', price: '3,000 د.ع', badge: '💎 ممتاز' },
-            { cat: 'instagram', name: 'متابعين إنستغرام VIP', qty: '1,000 متابع', price: '5,000 د.ع', badge: '🔥 الأكثر طلباً' },
-            { cat: 'instagram', name: 'لايكات ريلز ومنشورات', qty: '5,000 لايك', price: '3,000 د.ع', badge: '⚡ فوري' },
-            { cat: 'instagram', name: 'مشاهدات ريلز إكسبلور', qty: '20,000 مشاهدة', price: '3,500 د.ع', badge: '🚀 ترند' }
-        ];
+const servicesData = [
+    { cat: 'telegram', name: 'أعضاء قنوات ومجموعات', qty: 'رشـق 5,000', price: '5,000 د.ع', stars: '220 ⭐️', badge: '🔥 الأكثر طلباً' },
+    { cat: 'telegram', name: 'مشاهدات منشورات', qty: '7,000 مشاهدة', price: '1,000, د.ع', stars: '70 ⭐️', badge: '⚡ تنفيذ فوري' },
+    { cat: 'telegram', name: 'التفاعلات والريأكشنات', qty: '3,000 تفاعل ايجابي', price: '1,000 د.ع', stars: '60 ⭐️', badge: '💎 ممتاز' },
+    { cat: 'instagram', name: 'متابعين إنستغرام VIP', qty: '1,000 متابع', price: '0,000 د.ع', stars: '0 ⭐️', badge: '🔥 قريبا ' },
+    { cat: 'instagram', name: 'لايكات ريلز ومنشورات', qty: '5,000 لايك', price: '0,000 د.ع', stars: '0 ⭐️', badge: '⚡ قريبا' },
+    { cat: 'instagram', name: 'مشاهدات ريلز إكسبلور', qty: '20,000 مشاهدة', price: '0,500 د.ع', stars: '0 ⭐️', badge: '🚀 قريبا' }
+];
+
 
         let selectedService = null;
 
