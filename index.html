@@ -10,16 +10,12 @@
     
     <!-- المؤثرات الصوتية -->
     <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" preload="auto"></audio>
-    <audio id="spinSound" src="https://assets.mixkit.co/active_storage/sfx/2004/2004-preview.mp3" preload="auto" loop></audio>
-    <audio id="winSound" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3" preload="auto"></audio>
-    <audio id="loseSound" src="https://assets.mixkit.co/active_storage/sfx/2572/2572-preview.mp3" preload="auto"></audio>
 
     <style>
         :root { 
             --gold: #e2b04a; 
             --gold-gradient: linear-gradient(135deg, #f1c40f, #d4af37);
             --dark-bg: #0a0a0b;
-            /* الشفافية الخفيفة لتوضيح خلفية الفيديو بشكل كامل */
             --glass: rgba(0, 0, 0, 0.28); 
             --glass-border: rgba(226, 176, 74, 0.4);
             --comment-bg: rgba(0, 0, 0, 0.35);
@@ -40,11 +36,10 @@
             padding-bottom: 120px;
         }
 
-        /* تحسين خلفية الفيديو لإظهاره بوضوح شديد ودون توقف */
         #bg-video {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; object-fit: cover; 
-            filter: brightness(0.85) contrast(1.05); /* إضاءة أعلى ووضوح ممتاز */
+            filter: brightness(0.85) contrast(1.05);
             pointer-events: none;
         }
 
@@ -58,14 +53,6 @@
             text-decoration: none;
         }
         .profile-trigger i { color: #000; font-size: 18px; }
-
-        .wheel-trigger-btn {
-            position: fixed; top: 15px; right: 15px; z-index: 1000;
-            background: var(--gold-gradient); color: #000; font-weight: bold;
-            padding: 8px 14px; border-radius: 20px; font-size: 13px;
-            border: none; cursor: pointer; box-shadow: 0 0 15px rgba(226, 176, 74, 0.5);
-            display: flex; align-items: center; gap: 6px; animation: pulse 2s infinite;
-        }
 
         .container {
             width: 100%; max-width: 440px; padding: 20px 15px 100px 15px;
@@ -81,6 +68,20 @@
 
         h1 { margin: 2px 0; font-size: 22px; color: var(--gold); text-shadow: 0 2px 6px rgba(0,0,0,0.9); }
         .subtitle { opacity: 0.9; font-size: 12px; letter-spacing: 0.5px; text-shadow: 0 1px 3px #000; }
+
+        /* قسم البوتات والتطبيقات */
+        .bots-section {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0;
+        }
+        .bot-card {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 14px; padding: 10px 5px; text-align: center;
+            backdrop-filter: blur(2px); text-decoration: none; color: #fff;
+            transition: 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .bot-card:active { transform: scale(0.95); border-color: var(--gold); }
+        .bot-card i { font-size: 22px; color: var(--gold); margin-bottom: 5px; display: block; }
+        .bot-card span { font-size: 11px; font-weight: bold; display: block; }
 
         .timer-box {
             background: rgba(0, 0, 0, 0.35); border: 1px dashed var(--gold);
@@ -140,7 +141,6 @@
         .faq-question { padding: 14px; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #fff; font-size: 13px; text-shadow: 0 1px 2px #000; }
         .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; padding: 0 14px; color: #fff; font-size: 12px; line-height: 1.5; text-shadow: 0 1px 2px #000; }
 
-        /* منطقة التعليقات */
         .comments-container { margin-top: 35px; width: 100%; }
         .comment-card {
             background: var(--comment-bg); border-radius: 20px;
@@ -171,45 +171,6 @@
         .star-rating-input i { font-size: 20px; cursor: pointer; color: #666; }
         .star-rating-input i.active { color: var(--gold); }
 
-        /* نافذة عجلة الحظ المنبثقة */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(6px);
-            z-index: 5000; display: none; align-items: center; justify-content: center;
-            padding: 15px; animation: fadeIn 0.3s ease;
-        }
-        .modal-card {
-            background: rgba(15, 15, 18, 0.95); border: 2px solid var(--gold);
-            border-radius: 24px; padding: 20px; width: 100%; max-width: 380px;
-            text-align: center; position: relative; box-shadow: 0 0 30px rgba(226, 176, 74, 0.3);
-        }
-        .close-modal {
-            position: absolute; top: 12px; right: 15px; font-size: 22px;
-            color: #fff; cursor: pointer; opacity: 0.8;
-        }
-        
-        .daily-progress { display: flex; justify-content: space-between; margin: 15px 0; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 12px; border: 1px solid rgba(226,176,74,0.2); }
-        .day-step { font-size: 10px; text-align: center; opacity: 0.5; }
-        .day-step.active { opacity: 1; color: var(--gold); font-weight: bold; }
-        .day-step i { display: block; font-size: 14px; margin-bottom: 2px; }
-
-        .wheel-container { position: relative; width: 250px; height: 250px; margin: 15px auto; }
-        .wheel-pointer {
-            position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-            width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent;
-            border-top: 22px solid #ff4757; z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-        }
-        .wheel {
-            width: 100%; height: 100%; border-radius: 50%; border: 5px solid var(--gold);
-            position: relative; overflow: hidden; transition: transform 4s cubic-bezier(0.15, 0.9, 0.15, 1);
-            box-shadow: 0 0 20px rgba(226, 176, 74, 0.3);
-        }
-        .wheel-spin-btn {
-            background: var(--gold-gradient); color: #000; font-weight: bold;
-            padding: 12px 25px; border-radius: 20px; border: none; cursor: pointer;
-            font-size: 16px; margin-top: 10px; width: 100%; box-shadow: 0 4px 15px rgba(226, 176, 74, 0.4);
-        }
-
         .news-bar { 
             position: fixed; bottom: 0; left: 0; width: 100%; 
             background: rgba(0,0,0,0.9); backdrop-filter: blur(8px); border-top: 1px solid var(--gold); 
@@ -230,12 +191,10 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
-    <!-- فيديو الخلفية مصلح للعمل بشكل دائم بدون توقف بخصائص مشددة -->
     <video autoplay loop muted playsinline disablePictureInPicture id="bg-video">
         <source src="Newbotsvip.MP4" type="video/mp4">
     </video>
@@ -249,10 +208,6 @@
         <span id="toastMsg">تم طلب خدمة جديدة من şǎřǎ 🔥</span>
     </div>
 
-    <button class="wheel-trigger-btn" onclick="openWheelModal()">
-        <i class="fa-solid fa-spinner fa-spin"></i> العجلة اليومية
-    </button>
-
     <div id="musicControl" onclick="toggleMusic()" style="position: fixed; bottom: 95px; left: 15px; z-index: 9999; background: rgba(0,0,0,0.7); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid gold;">
         <span id="musicIcon" style="font-size: 18px;">🔇</span>
     </div>
@@ -264,6 +219,22 @@
             <div class="logo-crown">💎👑</div>
             <h1> بعض العروض </h1>
             <p class="subtitle">PREMIUM ACCOUNT SERVICES</p>
+        </div>
+
+        <!-- شبكة البوتات التفاعلية الخاصة بك -->
+        <div class="bots-section">
+            <a href="https://t.me/rirbbot" target="_blank" class="bot-card" onclick="playClickSound()">
+                <i class="fa-solid fa-robot"></i>
+                <span>بوت الخدمات</span>
+            </a>
+            <a href="https://t.me/vfrbot" target="_blank" class="bot-card" onclick="playClickSound()">
+                <i class="fa-solid fa-comments"></i>
+                <span>بوت التواصل</span>
+            </a>
+            <a href="https://t.me/vvjjbot" target="_blank" class="bot-card" onclick="playClickSound()">
+                <i class="fa-solid fa-gamepad"></i>
+                <span>لعبة XO</span>
+            </a>
         </div>
 
         <div class="timer-box">
@@ -352,33 +323,6 @@
         </div>
     </div>
 
-    <!-- النافذة المنبثقة لعجلة الحظ -->
-    <div id="wheelModal" class="modal-overlay">
-        <div class="modal-card">
-            <span class="close-modal" onclick="closeWheelModal()">&times;</span>
-            <h2 style="color: var(--gold); margin: 0 0 5px 0; font-size: 20px;">🎁 عجلة الحظ اليومية</h2>
-            <p style="font-size: 11px; opacity: 0.8; margin: 0;">ادخل يومياً لزيادة سريان مكافآتك والحصول على خصومات مجانية!</p>
-
-            <div class="daily-progress">
-                <div class="day-step active"><i class="fa-solid fa-calendar-check"></i>1</div>
-                <div class="day-step active"><i class="fa-solid fa-calendar-check"></i>2</div>
-                <div class="day-step active"><i class="fa-solid fa-calendar-check"></i>3</div>
-                <div class="day-step"><i class="fa-solid fa-gift"></i>4</div>
-                <div class="day-step"><i class="fa-solid fa-calendar"></i>5</div>
-                <div class="day-step"><i class="fa-solid fa-calendar"></i>6</div>
-                <div class="day-step"><i class="fa-solid fa-trophy"></i>7</div>
-            </div>
-
-            <div class="wheel-container">
-                <div class="wheel-pointer"></div>
-                <canvas id="wheelCanvas" width="250" height="250" class="wheel"></canvas>
-            </div>
-
-            <button class="wheel-spin-btn" id="spinBtn" onclick="spinWheel()">در العجلة الآن 🎡</button>
-            <div id="wheelResult" style="margin-top: 12px; font-weight: bold; font-size: 13px; color: var(--gold);"></div>
-        </div>
-    </div>
-
     <a id="floatingOrderBtn" href="https://t.me/E2E12" target="_blank" class="floating-order-btn" onclick="playClickSound()">
         <i class="fa-brands fa-telegram" style="font-size: 20px;"></i>
         <span id="floatingBtnText">تواصل للطلب مباشرة </span>
@@ -389,7 +333,6 @@
     </div>
 
     <script>
-        // إجبار الفيديو على الاستمرار في التشغيل بدون أي توقف
         const bgVid = document.getElementById('bg-video');
         document.addEventListener('touchstart', () => { if (bgVid.paused) bgVid.play(); }, { once: true });
         setInterval(() => { if (bgVid.paused) bgVid.play(); }, 2000);
@@ -544,42 +487,36 @@
             }
         });
 
-        /* تحميل وإظهار التعليقات بشكل حقيقي ومضمون */
+        /* جلب وإظهار كافة التعليقات المخزنة في قاعدة البيانات بنجاح */
         async function loadComments() {
             const div = document.getElementById('listComments');
-            let html = '';
+            div.innerHTML = '<div style="text-align:center; opacity:0.6; padding:10px;">جاري تحميل التعليقات...</div>';
             
             try {
                 const { data, error } = await MySupabase.from('comments').select('*').order('id', { ascending: false });
-                if (!error && data && data.length > 0) {
+                
+                if (error) throw error;
+
+                if (data && data.length > 0) {
+                    let html = '';
                     data.forEach(c => {
+                        const avatar = c.photo || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(c.name || 'user')}`;
                         html += `
                             <div class="comment-card">
-                                <img src="${c.photo || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + encodeURIComponent(c.name || 'user')}" class="comment-avatar">
+                                <img src="${avatar}" class="comment-avatar" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=user'">
                                 <div class="comment-name">${c.name || 'مشترك مميز'}</div>
                                 <div class="stars-display">${"⭐".repeat(c.rating || 5)}</div>
                                 <div class="comment-text">${c.msg}</div>
                             </div>`;
                     });
+                    div.innerHTML = html;
+                } else {
+                    div.innerHTML = '<div style="text-align:center; opacity:0.7; font-size:12px;">لا توجد تعليقات سابقة. كن أول من يعلق!</div>';
                 }
-            } catch (e) { console.log('Supabase check:', e); }
-
-            // التعليقات الأساسية الافتراضية للواجهة
-            html += `
-                <div class="comment-card">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ali" class="comment-avatar">
-                    <div class="comment-name">علي الحلاق</div>
-                    <div class="stars-display">⭐⭐⭐⭐⭐</div>
-                    <div class="comment-text">خدمة ممتازة وسريعة جداً تم زيادة اعضاء القناة بخلال دقائق 🔥</div>
-                </div>
-                <div class="comment-card">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sara" class="comment-avatar">
-                    <div class="comment-name">سارة محمد</div>
-                    <div class="stars-display">⭐⭐⭐⭐⭐</div>
-                    <div class="comment-text">افضل موقع للرشق والتفاعلات بدون اي نقصان عاشت ايدكم ✨</div>
-                </div>`;
-            
-            div.innerHTML = html;
+            } catch (e) {
+                console.error("Supabase load error:", e);
+                div.innerHTML = '<div style="text-align:center; color: var(--gold); font-size:12px;">تعذر جلب التعليقات تلقائياً. سيتم إظهار التقييمات فور إضافتك لتعليق جديد!</div>';
+            }
         }
 
         async function sendReview() {
@@ -592,20 +529,19 @@
             const username = user.username ? `@${user.username}` : "بلا يوزر";
             const userPhoto = user.photo_url || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(fullName)}`;
 
-            // إرسال الإشعار إلى التليجرام الخاص بك
             const botToken = "8772752122:AAFsvrKAiLDPIBUD_blDGWdFPCLrAhqn2TY";
             const myId = "5581457665";
             const alertText = `⭐ تقييم جديد (${userRating} نجوم)\n👤 الاسم: ${fullName}\n🆔 اليوزر: ${username}\n💬 التعليق: ${msg}`;
             fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${myId}&text=${encodeURIComponent(alertText)}`).catch(() => {});
 
-            // حفظ التعليق في قاعدة البيانات
+            // حفظ التعليق في Supabase
             try {
                 await MySupabase.from('comments').insert([{
                     name: fullName, photo: userPhoto, rating: userRating, msg: msg
                 }]);
-            } catch(e){}
+            } catch(e) { console.error(e); }
 
-            // إضافة التعليق فورياً في الشاشة دون الحاجة لإعادة التحديث
+            // إظهار التعليق مباشرة فوق بقية التعليقات
             const div = document.getElementById('listComments');
             const newCommentHTML = `
                 <div class="comment-card" style="border-color: var(--gold); animation: fadeIn 0.5s;">
@@ -614,102 +550,15 @@
                     <div class="stars-display">${"⭐".repeat(userRating)}</div>
                     <div class="comment-text">${msg}</div>
                 </div>`;
-            div.insertAdjacentHTML('afterbegin', newCommentHTML);
+            
+            if (div.innerText.includes('لا توجد تعليقات') || div.innerText.includes('تعذر جلب')) {
+                div.innerHTML = newCommentHTML;
+            } else {
+                div.insertAdjacentHTML('afterbegin', newCommentHTML);
+            }
 
             msgInput.value = '';
             alert("تم نشر تقييمك بنجاح! 🎉");
-        }
-
-        /* برمجة العجلة ورسمها */
-        const wheelSectors = [
-            { label: "100 مشاهدة", color: "#e2b04a", win: true },
-            { label: "خصم 50%", color: "#111115", win: true },
-            { label: "حظ أوفر", color: "#22222a", win: false },
-            { label: "50 تفاعل", color: "#e2b04a", win: true },
-            { label: "خصم 20%", color: "#111115", win: true },
-            { label: "حاول غداً", color: "#22222a", win: false }
-        ];
-
-        function drawWheel() {
-            const canvas = document.getElementById('wheelCanvas');
-            const ctx = canvas.getContext('2d');
-            const numSectors = wheelSectors.length;
-            const arc = (2 * Math.PI) / numSectors;
-
-            for (let i = 0; i < numSectors; i++) {
-                ctx.beginPath();
-                ctx.fillStyle = wheelSectors[i].color;
-                ctx.moveTo(125, 125);
-                ctx.arc(125, 125, 125, i * arc, (i + 1) * arc);
-                ctx.fill();
-                ctx.lineWidth = 1;
-                ctx.strokeStyle = '#e2b04a';
-                ctx.stroke();
-
-                ctx.save();
-                ctx.translate(125, 125);
-                ctx.rotate(i * arc + arc / 2);
-                ctx.textAlign = "right";
-                ctx.fillStyle = wheelSectors[i].color === "#e2b04a" ? "#000" : "#fff";
-                ctx.font = "bold 12px Segoe UI";
-                ctx.fillText(wheelSectors[i].label, 110, 4);
-                ctx.restore();
-            }
-        }
-
-        function openWheelModal() {
-            playClickSound();
-            document.getElementById('wheelModal').style.display = 'flex';
-        }
-
-        function closeWheelModal() {
-            playClickSound();
-            document.getElementById('wheelModal').style.display = 'none';
-        }
-
-        let isSpinning = false;
-        function spinWheel() {
-            if (isSpinning) return;
-            isSpinning = true;
-
-            const spinBtn = document.getElementById('spinBtn');
-            const resultDiv = document.getElementById('wheelResult');
-            const spinAudio = document.getElementById('spinSound');
-            const winAudio = document.getElementById('winSound');
-            const loseAudio = document.getElementById('loseSound');
-
-            resultDiv.innerHTML = "";
-            spinBtn.disabled = true;
-            spinAudio.currentTime = 0;
-            spinAudio.play().catch(() => {});
-
-            const wheel = document.getElementById('wheelCanvas');
-            const sectorDegree = 360 / wheelSectors.length;
-            const randomIndex = Math.floor(Math.random() * wheelSectors.length);
-            const targetDegree = 360 * 5 + (360 - (randomIndex * sectorDegree + sectorDegree / 2));
-
-            wheel.style.transform = `rotate(${targetDegree}deg)`;
-
-            setTimeout(() => {
-                spinAudio.pause();
-                isSpinning = false;
-                spinBtn.disabled = false;
-                
-                const wonItem = wheelSectors[randomIndex];
-                if (wonItem.win) {
-                    winAudio.currentTime = 0;
-                    winAudio.play().catch(() => {});
-                    const msg = encodeURIComponent(`أهلاً 👋، لقد قمت بتدوير عجلة الحظ اليومية وربحت: (${wonItem.label})! أود المطالبة بتفعيل الجائزة.`);
-                    resultDiv.innerHTML = `
-                        <p style="color:#2ecc71; margin: 5px 0;">مبروك! لقد فزت بـ: ${wonItem.label} 🎉</p>
-                        <a href="https://t.me/E2E12?text=${msg}" target="_blank" style="background: var(--gold-gradient); color: #000; padding: 8px 15px; border-radius: 12px; text-decoration: none; display: inline-block; margin-top: 5px; font-weight: bold;">ادّعِ بجائزتك الآن 🎁</a>
-                    `;
-                } else {
-                    loseAudio.currentTime = 0;
-                    loseAudio.play().catch(() => {});
-                    resultDiv.innerHTML = `<p style="color:#e74c3c; margin: 5px 0;">حظ أوفر! عد غداً للمحاولة مجدداً 🎯</p>`;
-                }
-            }, 4000);
         }
 
         window.onload = () => {
@@ -718,7 +567,6 @@
             startTimer();
             showToasts();
             loadComments();
-            drawWheel();
         };
     </script>
 </body>
