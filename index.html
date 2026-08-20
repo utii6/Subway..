@@ -19,9 +19,10 @@
             --gold: #e2b04a; 
             --gold-gradient: linear-gradient(135deg, #f1c40f, #d4af37);
             --dark-bg: #0a0a0b;
-            --glass: rgba(0, 0, 0, 0.45); 
-            --glass-border: rgba(226, 176, 74, 0.3);
-            --comment-bg: rgba(0, 0, 0, 0.40);
+            /* الشفافية الخفيفة لتوضيح خلفية الفيديو بشكل كامل */
+            --glass: rgba(0, 0, 0, 0.28); 
+            --glass-border: rgba(226, 176, 74, 0.4);
+            --comment-bg: rgba(0, 0, 0, 0.35);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -39,19 +40,22 @@
             padding-bottom: 120px;
         }
 
+        /* تحسين خلفية الفيديو لإظهاره بوضوح شديد ودون توقف */
         #bg-video {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; object-fit: cover; filter: brightness(0.55) contrast(1.1);
+            z-index: -1; object-fit: cover; 
+            filter: brightness(0.85) contrast(1.05); /* إضاءة أعلى ووضوح ممتاز */
+            pointer-events: none;
         }
 
         .profile-trigger {
             position: fixed; top: 15px; left: 15px; z-index: 1000;
             width: 45px; height: 45px; border-radius: 50%;
             background: var(--gold-gradient);
-            display: flex; align-items: center; justify-content: justify;
-            box-shadow: 0 0 12px rgba(226, 176, 74, 0.4);
-            border: 2px solid rgba(255,255,255,0.2);
-            text-decoration: none; justify-content: center;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 12px rgba(226, 176, 74, 0.5);
+            border: 2px solid rgba(255,255,255,0.4);
+            text-decoration: none;
         }
         .profile-trigger i { color: #000; font-size: 18px; }
 
@@ -75,13 +79,13 @@
             display: inline-block; animation: float 3s infinite ease-in-out;
         }
 
-        h1 { margin: 2px 0; font-size: 22px; color: var(--gold); text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
-        .subtitle { opacity: 0.85; font-size: 12px; letter-spacing: 0.5px; }
+        h1 { margin: 2px 0; font-size: 22px; color: var(--gold); text-shadow: 0 2px 6px rgba(0,0,0,0.9); }
+        .subtitle { opacity: 0.9; font-size: 12px; letter-spacing: 0.5px; text-shadow: 0 1px 3px #000; }
 
         .timer-box {
-            background: rgba(0, 0, 0, 0.5); border: 1px dashed var(--gold);
+            background: rgba(0, 0, 0, 0.35); border: 1px dashed var(--gold);
             border-radius: 14px; padding: 10px; text-align: center; margin: 12px 0;
-            backdrop-filter: blur(4px); box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            backdrop-filter: blur(2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4);
         }
         .timer-title { font-size: 11px; color: #fff; opacity: 0.9; margin-bottom: 3px; }
         .timer-digits { font-size: 18px; font-weight: bold; color: var(--gold); letter-spacing: 2px; }
@@ -90,20 +94,20 @@
         .stat-card {
             background: var(--glass); border: 1px solid var(--glass-border);
             padding: 14px 10px; border-radius: 18px; text-align: center;
-            backdrop-filter: blur(4px); box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            backdrop-filter: blur(2px); box-shadow: 0 8px 16px rgba(0,0,0,0.3);
         }
         .stat-card i { color: var(--gold); font-size: 20px; margin-bottom: 6px; display: block; }
         .stat-num { font-size: 20px; font-weight: 800; display: block; margin-bottom: 2px; color: var(--gold) !important; }
-        .stat-label { font-size: 11px; opacity: 0.8; color: white; }
+        .stat-label { font-size: 11px; opacity: 0.9; color: white; text-shadow: 0 1px 2px #000; }
 
         .services-section { margin-top: 25px; }
-        .section-title { text-align: center; color: var(--gold); font-size: 18px; margin-bottom: 12px; }
+        .section-title { text-align: center; color: var(--gold); font-size: 18px; margin-bottom: 12px; text-shadow: 0 2px 4px #000; }
         
         .tabs-container { display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; }
         .tab-btn {
             background: var(--glass); border: 1px solid var(--glass-border);
             color: white; padding: 8px 16px; border-radius: 12px; font-size: 13px;
-            cursor: pointer; transition: 0.3s; backdrop-filter: blur(3px);
+            cursor: pointer; transition: 0.3s; backdrop-filter: blur(2px);
         }
         .tab-btn.active { background: var(--gold-gradient); color: #000; font-weight: bold; border-color: var(--gold); }
 
@@ -111,13 +115,13 @@
             background: var(--glass); border: 1px solid var(--glass-border);
             border-radius: 16px; padding: 14px; margin-bottom: 10px;
             display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(4px); transition: 0.3s ease; cursor: pointer;
+            backdrop-filter: blur(2px); transition: 0.3s ease; cursor: pointer;
         }
-        .service-card.selected { border-color: var(--gold); box-shadow: 0 0 15px rgba(226, 176, 74, 0.4); background: rgba(0, 0, 0, 0.6); }
+        .service-card.selected { border-color: var(--gold); box-shadow: 0 0 15px rgba(226, 176, 74, 0.6); background: rgba(0, 0, 0, 0.5); }
         .service-info { display: flex; flex-direction: column; gap: 3px; }
-        .service-name { font-size: 14px; font-weight: bold; color: #fff; }
-        .service-qty { font-size: 11px; opacity: 0.8; color: #ddd; }
-        .service-badge { font-size: 9px; background: rgba(226, 176, 74, 0.2); color: var(--gold); padding: 2px 6px; border-radius: 6px; width: fit-content; border: 1px solid rgba(226,176,74,0.3); }
+        .service-name { font-size: 14px; font-weight: bold; color: #fff; text-shadow: 0 1px 2px #000; }
+        .service-qty { font-size: 11px; opacity: 0.85; color: #eee; }
+        .service-badge { font-size: 9px; background: rgba(226, 176, 74, 0.3); color: var(--gold); padding: 2px 6px; border-radius: 6px; width: fit-content; border: 1px solid rgba(226,176,74,0.4); }
         .service-price { font-size: 15px; font-weight: bold; color: var(--gold); text-align: left; }
 
         .floating-order-btn {
@@ -131,17 +135,18 @@
 
         .faq-item {
             background: var(--glass); border: 1px solid var(--glass-border);
-            border-radius: 14px; margin-bottom: 10px; overflow: hidden; backdrop-filter: blur(4px);
+            border-radius: 14px; margin-bottom: 10px; overflow: hidden; backdrop-filter: blur(2px);
         }
-        .faq-question { padding: 14px; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #fff; font-size: 13px; }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; padding: 0 14px; color: #ddd; font-size: 12px; line-height: 1.5; }
+        .faq-question { padding: 14px; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #fff; font-size: 13px; text-shadow: 0 1px 2px #000; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; padding: 0 14px; color: #fff; font-size: 12px; line-height: 1.5; text-shadow: 0 1px 2px #000; }
 
+        /* منطقة التعليقات */
         .comments-container { margin-top: 35px; width: 100%; }
         .comment-card {
             background: var(--comment-bg); border-radius: 20px;
             padding: 35px 15px 15px; position: relative;
             text-align: center; margin-bottom: 35px; border: 1px solid var(--glass-border);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(2px); box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         .comment-avatar {
             width: 55px; height: 55px; border-radius: 50%;
@@ -149,27 +154,27 @@
             top: -28px; left: 50%; transform: translateX(-50%);
             background: #111; object-fit: cover;
         }
-        .comment-name { font-weight: bold; font-size: 14px; margin-bottom: 3px; color: white; }
+        .comment-name { font-weight: bold; font-size: 14px; margin-bottom: 3px; color: white; text-shadow: 0 1px 2px #000; }
         .stars-display { color: #f1c40f; margin-bottom: 8px; font-size: 12px; }
-        .comment-text { font-size: 12px; opacity: 0.9; line-height: 1.4; color: #eee; }
+        .comment-text { font-size: 12px; opacity: 0.95; line-height: 1.4; color: #fff; text-shadow: 0 1px 2px #000; }
 
         .add-comment-box {
             background: var(--glass); padding: 16px; border-radius: 16px;
-            border: 1px solid var(--gold); margin-bottom: 25px; backdrop-filter: blur(4px);
+            border: 1px solid var(--gold); margin-bottom: 25px; backdrop-filter: blur(2px);
         }
         .add-comment-box textarea {
-            width: 100%; background: rgba(0,0,0,0.6); border: 1px solid var(--glass-border);
+            width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border);
             border-radius: 10px; color: white; padding: 10px; resize: none; margin-bottom: 10px;
             outline: none; font-family: inherit; font-size: 13px;
         }
         .star-rating-input { display: flex; flex-direction: row-reverse; justify-content: center; gap: 6px; margin-bottom: 10px; }
-        .star-rating-input i { font-size: 20px; cursor: pointer; color: #555; }
+        .star-rating-input i { font-size: 20px; cursor: pointer; color: #666; }
         .star-rating-input i.active { color: var(--gold); }
 
         /* نافذة عجلة الحظ المنبثقة */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(6px);
             z-index: 5000; display: none; align-items: center; justify-content: center;
             padding: 15px; animation: fadeIn 0.3s ease;
         }
@@ -230,7 +235,8 @@
 </head>
 <body>
 
-    <video autoplay muted loop playsinline id="bg-video">
+    <!-- فيديو الخلفية مصلح للعمل بشكل دائم بدون توقف بخصائص مشددة -->
+    <video autoplay loop muted playsinline disablePictureInPicture id="bg-video">
         <source src="Newbotsvip.MP4" type="video/mp4">
     </video>
 
@@ -383,6 +389,11 @@
     </div>
 
     <script>
+        // إجبار الفيديو على الاستمرار في التشغيل بدون أي توقف
+        const bgVid = document.getElementById('bg-video');
+        document.addEventListener('touchstart', () => { if (bgVid.paused) bgVid.play(); }, { once: true });
+        setInterval(() => { if (bgVid.paused) bgVid.play(); }, 2000);
+
         const S_URL = 'https://uppigexrpcscwvxvbghh.supabase.co';
         const S_KEY = 'sb_publishable_3_rclvwUllDHqSj18otngQ_wFFz-PMk';
         const MySupabase = supabase.createClient(S_URL, S_KEY);
@@ -533,59 +544,68 @@
             }
         });
 
+        /* تحميل وإظهار التعليقات بشكل حقيقي ومضمون */
         async function loadComments() {
             const div = document.getElementById('listComments');
+            let html = '';
+            
             try {
-                const { data } = await MySupabase.from('comments').select('*').order('id', { ascending: false });
-                let html = '';
-                if (data && data.length > 0) {
+                const { data, error } = await MySupabase.from('comments').select('*').order('id', { ascending: false });
+                if (!error && data && data.length > 0) {
                     data.forEach(c => {
                         html += `
                             <div class="comment-card">
-                                <img src="${c.photo || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + encodeURIComponent(c.name)}" class="comment-avatar">
-                                <div class="comment-name">${c.name}</div>
+                                <img src="${c.photo || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + encodeURIComponent(c.name || 'user')}" class="comment-avatar">
+                                <div class="comment-name">${c.name || 'مشترك مميز'}</div>
                                 <div class="stars-display">${"⭐".repeat(c.rating || 5)}</div>
                                 <div class="comment-text">${c.msg}</div>
                             </div>`;
                     });
                 }
-                html += `
-                    <div class="comment-card">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ali" class="comment-avatar">
-                        <div class="comment-name">علي الحلاق</div>
-                        <div class="stars-display">⭐⭐⭐⭐⭐</div>
-                        <div class="comment-text">خدمة ممتازة وسريعة جداً تم زيادة اعضاء القناة بخلال دقائق 🔥</div>
-                    </div>
-                    <div class="comment-card">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sara" class="comment-avatar">
-                        <div class="comment-name">سارة محمد</div>
-                        <div class="stars-display">⭐⭐⭐⭐⭐</div>
-                        <div class="comment-text">افضل موقع للرشق والتفاعلات بدون اي نقصان عاشت ايدكم ✨</div>
-                    </div>`;
-                div.innerHTML = html;
-            } catch (e) {
-                console.error(e);
-            }
+            } catch (e) { console.log('Supabase check:', e); }
+
+            // التعليقات الأساسية الافتراضية للواجهة
+            html += `
+                <div class="comment-card">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ali" class="comment-avatar">
+                    <div class="comment-name">علي الحلاق</div>
+                    <div class="stars-display">⭐⭐⭐⭐⭐</div>
+                    <div class="comment-text">خدمة ممتازة وسريعة جداً تم زيادة اعضاء القناة بخلال دقائق 🔥</div>
+                </div>
+                <div class="comment-card">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sara" class="comment-avatar">
+                    <div class="comment-name">سارة محمد</div>
+                    <div class="stars-display">⭐⭐⭐⭐⭐</div>
+                    <div class="comment-text">افضل موقع للرشق والتفاعلات بدون اي نقصان عاشت ايدكم ✨</div>
+                </div>`;
+            
+            div.innerHTML = html;
         }
 
         async function sendReview() {
             playClickSound();
-            const msg = document.getElementById('userMsg').value.trim();
+            const msgInput = document.getElementById('userMsg');
+            const msg = msgInput.value.trim();
             if (!msg) { alert("يرجى كتابة تعليق أولاً!"); return; }
 
             const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || "مشترك مميز";
             const username = user.username ? `@${user.username}` : "بلا يوزر";
             const userPhoto = user.photo_url || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(fullName)}`;
 
+            // إرسال الإشعار إلى التليجرام الخاص بك
             const botToken = "8772752122:AAFsvrKAiLDPIBUD_blDGWdFPCLrAhqn2TY";
             const myId = "5581457665";
             const alertText = `⭐ تقييم جديد (${userRating} نجوم)\n👤 الاسم: ${fullName}\n🆔 اليوزر: ${username}\n💬 التعليق: ${msg}`;
             fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${myId}&text=${encodeURIComponent(alertText)}`).catch(() => {});
 
-            await MySupabase.from('comments').insert([{
-                name: fullName, photo: userPhoto, rating: userRating, msg: msg
-            }]);
+            // حفظ التعليق في قاعدة البيانات
+            try {
+                await MySupabase.from('comments').insert([{
+                    name: fullName, photo: userPhoto, rating: userRating, msg: msg
+                }]);
+            } catch(e){}
 
+            // إضافة التعليق فورياً في الشاشة دون الحاجة لإعادة التحديث
             const div = document.getElementById('listComments');
             const newCommentHTML = `
                 <div class="comment-card" style="border-color: var(--gold); animation: fadeIn 0.5s;">
@@ -596,7 +616,7 @@
                 </div>`;
             div.insertAdjacentHTML('afterbegin', newCommentHTML);
 
-            document.getElementById('userMsg').value = '';
+            msgInput.value = '';
             alert("تم نشر تقييمك بنجاح! 🎉");
         }
 
