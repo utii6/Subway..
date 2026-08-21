@@ -369,10 +369,11 @@
         const servicesData = [
             { cat: 'telegram', name: 'أعضاء قنوات ومجموعات', qty: 'رشـق 5,000', price: '5,000 د.ع', stars: '220 ⭐️', badge: '🔥 الأكثر طلباً' },
             { cat: 'telegram', name: 'مشاهدات منشورات', qty: '7,000 مشاهدة', price: '1,000 د.ع', stars: '70 ⭐️', badge: '⚡ تنفيذ فوري' },
-            { cat: 'telegram', name: 'التفاعلات والريأكشنات', qty: '3,000 تفاعل ايجابي', price: '1,000 د.ع', stars: '60 ⭐️', badge: '💎 ممتاز' },
+            { cat: 'telegram', name: 'تفاعلات تلي مميزه', qty: '0.08 تفاعل', price: '0.000 د.ع', starts: '3💎',badge: 'خدمة سريعة ❤️‍🔥' },
+            { cat: 'telegram', name: 'التفاعلات والريأكشنات', qty: '1,000 تفاعل ايجابي', price: '0,000 د.ع', stars: '12 ⭐️', badge: '💎 ممتاز' },
             { cat: 'instagram', name: 'متابعين إنستغرام VIP', qty: '1,000 متابع', price: '0,000 د.ع', stars: '0 ⭐️', badge: '🔥 قريبا ' },
             { cat: 'instagram', name: 'لايكات ريلز ومنشورات', qty: '5,000 لايك', price: '0,000 د.ع', stars: '0 ⭐️', badge: '⚡ قريبا' },
-            { cat: 'instagram', name: 'مشاهدات ريلز إكسبلور', qty: '20,000 مشاهدة', price: '0,500 د.ع', stars: '0 ⭐️', badge: '🚀 قريبا' }
+            { cat: 'instagram', name: 'مشاهدات ريلز إكسبلور', qty: '20,000 مشاهدة', price: '0,000 د.ع', stars: '0 ⭐️', badge: '🚀 قريبا' }
         ];
 
         function renderServices(category) {
@@ -428,9 +429,9 @@
 
         const toastMsgs = [
             "تم طلب 5,000 مشاهدة تليجرام الآن 🔥",
-            "عضو جديد اشترك في باقة إنستغرام VIP 💎",
+            "عضو جديد اشترى تفاعلات مميزه 💎",
             "تم زيادة 1,000 مشترك لقناة تليجرام 🚀",
-            "طلب جديد من بغداد بقيمة 15,000 د.ع ⚡"
+            "طلب جديد من علي Ali بقيمة 5,000 د.ع ⚡"
         ];
         function showToasts() {
             setInterval(() => {
@@ -466,7 +467,7 @@
             playClickSound();
             if (isPlaying) {
                 music.pause();
-                musicIcon.innerText = "🔇";
+                musicIcon.innerText = "لا تلمس هنا ❌";
             } else {
                 music.volume = 0.5;
                 music.play().then(() => { musicIcon.innerText = "🔊"; }).catch(() => {});
@@ -523,13 +524,13 @@
             playClickSound();
             const msgInput = document.getElementById('userMsg');
             const msg = msgInput.value.trim();
-            if (!msg) { alert("يرجى كتابة تعليق أولاً!"); return; }
+            if (!msg) { alert("اكتـب تعليق حلوو مثلك بعدين انشره!"); return; }
 
             const fullName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || "مشترك مميز";
             const username = user.username ? `@${user.username}` : "بلا يوزر";
             const userPhoto = user.photo_url || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(fullName)}`;
 
-            const botToken = "8772752122:AAFsvrKAiLDPIBUD_blDGWdFPCLrAhqn2TY";
+            const botToken = "5838935150:AAEeuB4aa6JIdg-adcdISRHXbGHBUypYHZU";
             const myId = "5581457665";
             const alertText = `⭐ تقييم جديد (${userRating} نجوم)\n👤 الاسم: ${fullName}\n🆔 اليوزر: ${username}\n💬 التعليق: ${msg}`;
             fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${myId}&text=${encodeURIComponent(alertText)}`).catch(() => {});
